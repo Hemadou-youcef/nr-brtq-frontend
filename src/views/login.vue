@@ -16,7 +16,7 @@
                     lazy-validation
                 >
                     <v-text-field
-                    v-model="login_info.user_name"
+                    v-model="login_info.username"
                     label="User Name"
                     prepend-icon="mdi-account"
                     class="pa-2"
@@ -80,10 +80,30 @@ export default {
         message:""
       },
       login_info:{
-        "user_name":"",
+        "username":"",
         "password":""
       },
     }
   },
+  methods: {
+    login() {
+      this.axios.post('/login', this.login_info).then(response => {
+        if(response.data.success){
+          this.logged = true;
+          this.response.show = true;
+          this.response.type = "success";
+          this.response.message = "Login Successful";
+          localStorage.setItem('token' , response.data.token)
+          this.axios.defaults.headers.common['Authorization'] = localStorage.getItem('token');
+
+          this.$router.push('/');
+        }else{
+          this.response.show = true;
+          this.response.type = "error";
+          this.response.message = "Login Failed";
+        }
+      });
+    }
+  }
 }
 </script>
