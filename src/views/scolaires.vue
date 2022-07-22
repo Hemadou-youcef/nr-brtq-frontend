@@ -8,7 +8,7 @@
           class="mb-2"
           @click="AddItem_dialog = true"
         >
-          <v-icon color="primary"> mdi-sofa-single </v-icon>
+          <v-icon color="primary"> mdi-chair-school </v-icon>
           ADD ITEM
         </v-btn>
         <!-- <hr />  -->
@@ -67,7 +67,7 @@
       :scrollable="false"
       @click:outside="closeOverLay(true)"
     >
-      <AddItem :category="'meubles'" :closeDialog="closeOverLay"/>
+      <AddItem :category="'scolaires'" :closeDialog="closeDialog"/>
     </v-dialog>
   </div>
 </template>
@@ -103,7 +103,7 @@ export default {
   methods: {
     GetAllfurniture() {
       this.loading = true;
-      this.axios.get("/items?category=meubles").then((response) => {
+      this.axios.get("/items?category=scolaires").then((response) => {
         this.loading = false;
         this.furniture = response.data.data;
       });
@@ -118,7 +118,7 @@ export default {
     searchItems() {
       this.loading = true;
       this.axios
-        .get("/items/" + this.search + "?category=meubles")
+        .get("/items/" + this.search + "?category=scolaires")
         .then((response) => {
           this.loading = false;
           this.furniture = response.data.data;
@@ -128,7 +128,7 @@ export default {
       this.loading = true;
       if (this.search == "") {
         this.axios
-          .get("/items?category=meubles&page=" + this.page)
+          .get("/items?category=scolaires&page=" + this.page)
           .then((response) => {
             this.loading = false;
             this.furniture = response.data.data;
@@ -136,7 +136,9 @@ export default {
           });
       } else {
         this.axios
-          .get("/items/" + this.search + "?category=meubles&page=" + this.page)
+          .get(
+            "/items/" + this.search + "?category=scolaires&page=" + this.page
+          )
           .then((response) => {
             this.loading = false;
             this.furniture = response.data.data;
@@ -145,7 +147,7 @@ export default {
       }
       // this.router.push("?page=" + this.search);
     },
-    closeOverLay() {
+    closeDialog() {
       this.AddItem_dialog = false;
       this.pagination()
     },

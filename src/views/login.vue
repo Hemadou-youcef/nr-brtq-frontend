@@ -87,8 +87,10 @@ export default {
   },
   methods: {
     login() {
+      this.loading = true;
       this.axios.post('/login', this.login_info).then(response => {
         if(response.data.success){
+          this.loading = false;
           this.logged = true;
           this.response.show = true;
           this.response.type = "success";
@@ -102,7 +104,12 @@ export default {
           this.response.type = "error";
           this.response.message = "Login Failed";
         }
-      });
+      }).catch(() => {
+        this.loading=false;
+        this.response.show = true;
+        this.response.type = "error";
+        this.response.message = "Login Failed";
+      })
     }
   }
 }

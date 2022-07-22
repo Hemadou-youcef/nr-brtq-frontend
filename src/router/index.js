@@ -19,13 +19,38 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ '../views/meubles.vue')
   },
   {
-    path: '/meuble',
-    name: 'meuble',
+    path: '/bureaux',
+    name: 'bureaux',
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/meuble.vue')
+    component: () => import(/* webpackChunkName: "about" */ '../views/bureaux.vue')
   },
+  {
+    path: '/Chaises',
+    name: 'Chaises',
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () => import(/* webpackChunkName: "about" */ '../views/Chaises.vue')
+  },
+  {
+    path: '/scolaires',
+    name: 'scolaires',
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () => import(/* webpackChunkName: "about" */ '../views/scolaires.vue')
+  },
+  {
+    path: '/item/:id',
+    name: 'item',
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () => import(/* webpackChunkName: "about" */ '../views/item.vue')
+  },
+
   {
     path: '/login',
     name: 'login',

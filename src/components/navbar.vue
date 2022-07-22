@@ -7,9 +7,9 @@
         flat
     >
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
-      <span class="text-subtitle-2 text-center">NR BUREAUTIQUE</span>
+      <span class="text-subtitle-2 text-center white--text">NR BUREAUTIQUE</span>
       <v-spacer></v-spacer>
-      <v-btn class="ml-auto" v-if="logged" @click="logout" icon>
+      <v-btn class="ml-auto" v-if="isLoggedIn" @click="logout" icon>
         <v-icon color="white">mdi-export</v-icon>
       </v-btn>
     </v-app-bar>
@@ -18,7 +18,7 @@
           <v-icon color="white" large>
             mdi-desk
           </v-icon>
-          <span :class="`text-subtitle-${(MiniLogo)?'2':'1'}`">
+          <span>
             NR BUREAUTIQUE
           </span>
         </v-card>
@@ -39,6 +39,20 @@
                 {{ item.item }}
               </v-list-item-content>
             </v-list-item>
+            <v-list-item 
+            v-if="!isLoggedIn && !isThereValueInLocalStorage"
+            class="mx-4 mb-2 d-flex align-center justify-center rounded-lg"
+            :class="( metaRoute.toUpperCase() == '/LOGIN')?'brown darken-3':''"
+            link :to="'/login'"
+            color="white"
+            >
+              <v-list-item-icon>
+                <v-icon>mdi-key</v-icon>
+              </v-list-item-icon>
+              <v-list-item-content>
+                LOGIN
+              </v-list-item-content>
+            </v-list-item>
           </v-list>
         </v-list-item-group>
 
@@ -46,18 +60,19 @@
       </v-navigation-drawer>
   </div>
 </template>
-
+<!-- {'item': 'About US', 'icon': 'mdi-account-supervisor', 'to': '/about-us'}, -->
 <script>
   export default {
     name: 'navbar',
-
+    props: ["isLoggedIn"],
     data: () => ({
       drawer: true,
-      logged : false,
       drawer_items: [
         {'item': 'Accueil', 'icon': 'mdi-view-dashboard', 'to': '/'},
-        {'item': 'Meubles', 'icon': 'mdi-desk', 'to': '/meubles'},
-        {'item': 'About US', 'icon': 'mdi-account-supervisor', 'to': '/about-us'},
+        {'item': 'Meubles', 'icon': 'mdi-sofa-single', 'to': '/meubles'},
+        {'item': 'bureaux', 'icon': 'mdi-desk', 'to': '/bureaux'},
+        {'item': 'Chaises', 'icon': 'mdi-chair-rolling', 'to': '/Chaises'},
+        {'item': 'scolaires', 'icon': 'mdi-chair-school', 'to': '/scolaires'},
       ]
     }),
     computed: {
@@ -67,31 +82,20 @@
         else
           return "/" + this.$route.fullPath.split('/')[1];
       },
+      isThereValueInLocalStorage(){
+        return localStorage.getItem('token') != null;
+      },
     },
     methods :{
-      CheckLogin(){
-        this.axios.get('/check-login').then(response => {
-          if(response.data.status == "success"){
-            this.logged = true;
-          }else{
-            this.drawer_items.push({'item': 'LOGIN', 'icon': 'mdi-key', 'to': '/login'},);
-          }
-        }).catch(() => {
-          this.drawer_items.push({'item': 'LOGIN', 'icon': 'mdi-key', 'to': '/login'},);
-        });
-      },
       logout(){
         this.axios.post('/logout').then(response => {
           if(response.data.status == "success"){
-            this.logged = false;
+            this.isLoggedIn = false;
             localStorage.removeItem('token');
             window.location.href = "/";
           }
         });
       }
     },
-    mounted(){
-      this.CheckLogin();
-    }
   }
 </script>
