@@ -2,7 +2,7 @@
   <div class="pa-5">
     <v-container class="pa-5 brown darken-3 rounded-lg">
         <v-row> 
-          <v-col cols="6">
+          <v-col md="6" sm="12">
             <v-img
               src="https://blidacomputer.dz/wp-content/uploads/2019/10/bc-erable-1m-1.20m-1.60.png"
             ></v-img>

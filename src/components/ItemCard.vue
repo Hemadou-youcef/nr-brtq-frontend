@@ -1,11 +1,10 @@
 <template>
   <v-card
     class="mx-auto pa-3"
-    max-width="344"
-  >
+  > 
     <v-img
+      @click="goto('/meuble')"
       src="https://blidacomputer.dz/wp-content/uploads/2019/10/bc-erable-1m-1.20m-1.60.png"
-      height="200px"
     ></v-img>
 
     <v-card-title>
@@ -25,6 +24,20 @@
         </v-card-text>
       </div>
     </v-expand-transition>
+    <v-card-actions>
+      <v-btn
+        class="red"
+        @click="deleteConsultationDialog = true"
+      >
+        <v-icon color="white">mdi-delete</v-icon>
+      </v-btn>
+      <v-btn
+        class="green"
+        @click="deleteConsultationDialog = true"
+      >
+        <v-icon color="white">mdi-pen</v-icon>
+      </v-btn>
+    </v-card-actions>
   </v-card>
 </template>
 <script>
@@ -38,6 +51,11 @@ name: "CardInfo",
       return 'background-image: linear-gradient(270deg,#' + this.secondColor +  ' ,#' + this.firstColor +  ')';
     }
 
+  },
+  methods:{
+    goto(url){
+      this.$router.push(url);
+    }
   },
   watch:{
     message(){
@@ -61,8 +79,7 @@ name: "CardInfo",
 </script>
 
 <style scoped>
-  /*.CardInfoSheet{*/
-  /*  background-image: linear-gradient(270deg,#3a7bd5,#3a6073);*/
-  /*}*/
-
+    img:hover{
+      cursor: pointer;
+    }
 </style>

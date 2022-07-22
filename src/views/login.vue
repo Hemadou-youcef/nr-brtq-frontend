@@ -94,9 +94,9 @@ export default {
           this.response.type = "success";
           this.response.message = "Login Successful";
           localStorage.setItem('token' , response.data.token)
-          this.axios.defaults.headers.common['Authorization'] = localStorage.getItem('token');
+          this.axios.defaults.headers.common['Authorization'] = "Bearer " + localStorage.getItem('token');
 
-          this.$router.push('/');
+          window.location.href = "/";
         }else{
           this.response.show = true;
           this.response.type = "error";
