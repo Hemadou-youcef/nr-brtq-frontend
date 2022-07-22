@@ -1,6 +1,6 @@
 <template>
   <div class="pa-5">
-    <v-container class="pa-5 brown darken-3 rounded-lg">
+    <v-container class="pa-5 rounded-lg">
         <v-row> 
           <v-col md="6" sm="12">
             <v-img

@@ -11,9 +11,9 @@
           <v-form v-model="valid" ref="form">
             <v-text-field
                 :error-messages="formErrors.firstname"
-                @focus="formErrors.firstname= ''"
+                @focus="ItemForm.name= ''"
                 label="ITEM NAME"
-                v-model="patientForm.firstname"
+                v-model="ItemForm.name"
                 :rules="requireField"
                 required
                 class="mt-1"
@@ -28,14 +28,14 @@
                     name="input-7-4"
                     label="ITEM DESCRIPTION"
                     prepend-icon="mdi-pen"
+                    v-model="ItemForm.description"
                     class="mb-5"
             ></v-textarea>
             <v-text-field
                 :error-messages="formErrors.lastname"
                 @focus="formErrors.lastname= ''"
                 label="PRIX"
-                v-model="patientForm.lastname"
-                :rules="requireField"
+                v-model="ItemForm.price"
                 required
                 class="mt-1"
             ></v-text-field>
@@ -43,12 +43,26 @@
                 :error-messages="formErrors.lastname"
                 @focus="formErrors.lastname= ''"
                 label="QUANTITY"
-                v-model="patientForm.lastname"
-                :rules="requireField"
                 required
                 class="mt-1"
             ></v-text-field>
-
+            <v-row>
+              <v-col>
+                <v-file-input
+                  :rules="requireField"
+                  accept="image/png, image/jpeg, image/bmp"
+                  placeholder="Pick an avatar"
+                  v-model="ItemImage.image"
+                  prepend-icon="mdi-camera"
+                  label="Item Image"
+                  @change="previewImage"
+                ></v-file-input>
+              </v-col>
+              <v-col cols="4">
+                <v-img v-show="ItemImage.image" :src="ItemImage.imageURL"
+                       width="100" height="100"></v-img>
+              </v-col>
+            </v-row>
             <v-layout justify-space-between>
               <v-spacer></v-spacer>
               <v-btn @click="submit" color="secondary" :disabled="!valid"
@@ -75,30 +89,23 @@ export default {
   data() {
     return {
 
-      patientForm: {
-        firstname: '',
-        lastname: '',
-        password: '',
-        phone: '',
-        email: '',
-        birthday: new Date().toISOString().substr(0, 10),
-        gender: '',
-        bloodType: '',
-        address: '',
-
+      ItemForm: {
+        name:"",
+        description:"",
+        price:"",
+        quantity:"",
+        image:""
       },
-      patientImage: {
+      ItemImage: {
         image: null,
         imageURL: '',
       },
       formErrors: [],
 
-      genders: ['male', 'female'],
-      bloodType: ['O-', 'O+', 'A+', 'A-', 'B+', 'B-', 'AB+', 'AB-'],
       valid: false,
       menu: false,
       modal: false,
-      text: `Patient added`,
+      text: `item added`,
       requireField: [
         (v) => !!v || 'field is required',
       ],
@@ -108,23 +115,23 @@ export default {
     submit() {
       if (this.$refs.form.validate()) {
 
-        this.addPatient()
+        this.addItem()
 
       }
     },
-    addPatient() {
-      this.axios.post('/patient/create',
-          this.patientForm,
+    addItem() {
+      this.axios.post('/item',
+          this.ItemForm,
       ).then(res => {
 
 
         this.snackbar = true;
 
-        if (this.patientImage.imageURL) {
+        if (this.ItemImage.imageURL) {
           console.log('there is an image')
           this.updateImage(res.data.id)
         } else {
-          this.$emit('closeDialog', 'Patient Added');
+          this.$emit('closeDialog', 'Item Added');
         }
         this.clear()
       }).catch(err => {
@@ -139,7 +146,7 @@ export default {
     },
     updateImage(id) {
       let data = new FormData();
-      data.append('image', this.patientImage.image)
+      data.append('image', this.ItemImage.image)
       this.axios.post(`/image/${id}`, data, {
         headers: {
           'accept': 'application/json',
@@ -148,16 +155,16 @@ export default {
         }
       }).then(res => {
         console.log(res)
-        this.$emit('closeDialog', 'Patient Added');
+        this.$emit('closeDialog', 'Item Added');
       })
     },
     previewImage() {
-      console.log(this.patientImage)
-      if (this.patientImage.image) {
+      console.log(this.ItemImage)
+      if (this.ItemImage.image) {
 
-        this.patientImage.imageURL = URL.createObjectURL(this.patientImage.image)
+        this.ItemImage.imageURL = URL.createObjectURL(this.ItemImage.image)
       } else {
-        this.patientImage.imageURL = ''
+        this.ItemImage.imageURL = ''
       }
     }
   },

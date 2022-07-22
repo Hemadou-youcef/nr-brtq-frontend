@@ -7,8 +7,9 @@
         flat
     >
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
+      <span class="text-subtitle-2 text-center">NR BUREAUTIQUE</span>
       <v-spacer></v-spacer>
-      <v-btn v-if="logged" @click="logout" icon>
+      <v-btn class="ml-auto" v-if="logged" @click="logout" icon>
         <v-icon color="white">mdi-export</v-icon>
       </v-btn>
     </v-app-bar>
@@ -54,7 +55,7 @@
       drawer: true,
       logged : false,
       drawer_items: [
-        {'item': 'Home', 'icon': 'mdi-view-dashboard', 'to': '/'},
+        {'item': 'Accueil', 'icon': 'mdi-view-dashboard', 'to': '/'},
         {'item': 'Meubles', 'icon': 'mdi-desk', 'to': '/meubles'},
         {'item': 'About US', 'icon': 'mdi-account-supervisor', 'to': '/about-us'},
       ]
