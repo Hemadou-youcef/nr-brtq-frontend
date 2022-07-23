@@ -36,7 +36,7 @@
             <div class="ml-5 mr-5 pa-md-3 pa-sm-0">
               <p
                 v-for="(line, index) in item.description.split('\n')"
-                :class="{ 'text-right': testArabic(line.charAt(0)) }"
+                :style="{'direction': (testArabic(line.charAt(0))) ? 'rtl' : 'ltr'}"
                 class="text-xs-h5"
                 :key="index"
               >
