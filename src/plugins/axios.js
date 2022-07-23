@@ -10,7 +10,7 @@ import axios from "axios";
 let token = localStorage.getItem('token');
 let config = {
   // baseURL: ' http://192.168.1.10:8000/api' ,
-  baseURL: 'http://localhost:8000/api' ,
+  baseURL: 'https://nr-brt.herokuapp.com/api' ,
   // timeout: 60 * 1000, // Timeout
   // withCredentials: true, // Check cross-site Access-Control
 
