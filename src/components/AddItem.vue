@@ -34,7 +34,7 @@
               background-color="white"
               name="input-7-4"
               label="ITEM DESCRIPTION"
-              :prepend-icon="!xsBreakpoint?'mdi-pen':''"
+              :prepend-icon="!xsBreakpoint ? 'mdi-pen' : ''"
               v-model="ItemForm.description"
               class="mb-5"
             ></v-textarea>
@@ -47,20 +47,9 @@
               required
               class="mt-1"
             ></v-text-field>
-            <v-radio-group
-              v-model="ItemForm.quantity"
-              row
-            >
-              <v-radio
-                label="AVAILABLE" 
-                color="green"
-                :value="1"
-              ></v-radio>
-              <v-radio
-                label="NOT AVAILABLE"
-                color="red"
-                :value="0"
-              ></v-radio>
+            <v-radio-group v-model="ItemForm.quantity" row>
+              <v-radio label="AVAILABLE" color="green" :value="1"></v-radio>
+              <v-radio label="NOT AVAILABLE" color="red" :value="0"></v-radio>
             </v-radio-group>
             <v-row v-if="!edit">
               <v-col>
@@ -127,7 +116,7 @@
 <script>
 export default {
   name: "Login",
-  props: ["category", "edit", "name", "price", "description","quantity", "id"],
+  props: ["category", "edit", "name", "price", "description", "quantity", "id"],
   data() {
     return {
       ItemForm: {
@@ -143,7 +132,7 @@ export default {
         imageURL: "",
       },
       formErrors: [],
-
+      testImg: "",
       valid: false,
       menu: false,
       modal: false,
@@ -171,10 +160,9 @@ export default {
     };
   },
   computed: {
-    xsBreakpoint: function() {
+    xsBreakpoint: function () {
       return this.$vuetify.breakpoint.xs;
     },
-
   },
   methods: {
     submit() {
@@ -189,7 +177,7 @@ export default {
       this.axios
         .put("/item/" + this.id, this.ItemForm)
         .then(() => {
-          location.reload();
+          // location.reload();
           this.ActionLoading = false;
         })
         .catch((error) => {
@@ -197,26 +185,41 @@ export default {
         });
     },
     addItem() {
-      this.axios
-        .post("/item", this.ItemForm)
-        .then((res) => {
-          this.snackbar = true;
-          
-          if (this.ItemImage.imageURL) {
-            console.log("there is an image");
-            this.updateImage(res.data.item_id);
-          } else {
+      var reader = new FileReader();
+      reader.onload = () => {
+        let base64String = reader.result
+          .replace("data:", "")
+          .replace(/^.+,/, "");
+        // this.ItemForm.image = base64String;
+        let parameters = {
+          key: "6d207e02198a847aa98d0a2a901485a5",
+          action: "upload",
+          source: base64String,
+          format: "json",
+        };
+        this.ItemForm.parameters = parameters;
+        this.axios
+          .post("/item", this.ItemForm)
+          .then(() => {
+            this.snackbar = true;
             location.reload();
-            this.$emit("closeDialog");
-          }
-          this.clear();
-        })
-        .catch((err) => {
-          this.ActionLoading = false;
-          console.log(err);
-          this.formErrors = err.response.data.errors;
-          console.log(err);
-        });
+            // if (this.ItemImage.imageURL) {
+            //   console.log("there is an image");
+            //   this.updateImage(res.data.item_id);
+            // } else {
+            //   location.reload();
+            //   this.$emit("closeDialog");
+            // }
+            // this.clear();
+          })
+          .catch((err) => {
+            this.ActionLoading = false;
+            console.log(err);
+            this.formErrors = err.response.data.errors;
+            console.log(err);
+          });
+      };
+      reader.readAsDataURL(this.ItemImage.image);
     },
     clear() {
       this.$refs.form.reset();
