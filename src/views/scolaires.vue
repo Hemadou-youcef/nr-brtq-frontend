@@ -47,7 +47,7 @@
             :id="x.id"
             :name="x.name"
             :description="x.description"
-            :image="x.image"
+            :image="x.image[0]"
           />
         </v-col>
       </v-row>

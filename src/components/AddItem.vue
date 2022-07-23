@@ -56,23 +56,23 @@
                 <v-file-input
                   :rules="requireField"
                   accept="image/png, image/jpeg, image/bmp"
-                  placeholder="Pick an avatar"
+                  placeholder="ADD IMAGES"
                   v-model="ItemImage.image"
                   prepend-icon="mdi-camera"
                   class="mb-md-2 mb-sm-0"
                   label="Item Image"
-                  @change="previewImage"
+                  multiple
                   hide-details
                 ></v-file-input>
               </v-col>
               <v-col md="4" sm="12">
-                <v-img
+                <!-- <v-img
                   v-show="ItemImage.image"
                   :src="ItemImage.imageURL"
                   class="mb-2"
                   width="100%"
                   height="100"
-                ></v-img>
+                ></v-img> -->
               </v-col>
             </v-row>
             <v-layout justify-space-between>
@@ -129,7 +129,7 @@ export default {
       },
       ItemImage: {
         image: null,
-        imageURL: "",
+        imageBase64List: [],
       },
       formErrors: [],
       testImg: "",
@@ -174,7 +174,6 @@ export default {
     editItem() {
       this.ActionLoading = true;
       this.ItemForm.id = this.id;
-      this.ItemForm.quantity = toString(this.ItemForm.quantity);
       this.axios
         .put("/item/" + this.id, this.ItemForm)
         .then(() => {
@@ -186,42 +185,46 @@ export default {
         });
     },
     addItem() {
-      var reader = new FileReader();
+      this.ActionLoading = true;
+      this.convertToBase64Multiple(this.ItemImage.image);
+    },
+    clear() {
+      this.$refs.form.reset();
+    },
+    convertToBase64Multiple(files) {
+      let reader = new FileReader();
       reader.onload = () => {
         let base64String = reader.result
           .replace("data:", "")
           .replace(/^.+,/, "");
-        // this.ItemForm.image = base64String;
-        let parameters = {
-          action: "upload",
-          source: base64String
-        };
-        this.ItemForm.parameters = parameters;
-        this.axios
-          .post("/item", this.ItemForm)
-          .then(() => {
-            this.snackbar = true;
-            location.reload();
-            // if (this.ItemImage.imageURL) {
-            //   console.log("there is an image");
-            //   this.updateImage(res.data.item_id);
-            // } else {
-            //   location.reload();
-            //   this.$emit("closeDialog");
-            // }
-            // this.clear();
-          })
-          .catch((err) => {
-            this.ActionLoading = false;
-            console.log(err);
-            this.formErrors = err.response.data.errors;
-            console.log(err);
-          });
+        this.ItemImage.imageBase64List.push(base64String);
+        if (files.slice(1).length == 0) {
+          console.log("no file");
+          let parameters = {
+            action: "upload",
+            source: this.ItemImage.imageBase64List,
+          };
+          this.ItemForm.parameters = parameters;
+          this.axios
+            .post("/item", this.ItemForm)
+            .then(() => {
+              this.snackbar = true;
+              location.reload();
+            })
+            .catch((err) => {
+              this.ActionLoading = false;
+              console.log(err);
+              this.formErrors = err.response.data.errors;
+              console.log(err);
+            });
+        } else {
+          this.convertToBase64Multiple(files.slice(1));
+        }
+        return true;
       };
-      reader.readAsDataURL(this.ItemImage.image);
-    },
-    clear() {
-      this.$refs.form.reset();
+      if (files.length > 0) {
+        reader.readAsDataURL(files[0]);
+      } 
     },
     updateImage(id) {
       let data = new FormData();
@@ -255,7 +258,7 @@ export default {
       this.ItemForm.name = this.name;
       this.ItemForm.price = this.price;
       this.ItemForm.description = this.description;
-      this.ItemForm.quantity = parseInt(this.quantity);
+      this.ItemForm.quantity = this.quantity;
     }
   },
 };
