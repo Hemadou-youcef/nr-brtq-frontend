@@ -7,7 +7,7 @@
         flat
     >
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
-      <span class="text-subtitle-2 text-center white--text">NR BUREAUTIQUE</span>
+      <span class="text-subtitle-2 text-center white--text d-lg-none d-md-block">NR BUREAUTIQUE</span>
       <v-spacer></v-spacer>
       <v-btn class="ml-auto" v-if="isLoggedIn" @click="logout" icon>
         <v-icon color="white">mdi-export</v-icon>
@@ -15,8 +15,8 @@
     </v-app-bar>
     <v-navigation-drawer v-model="drawer" width="260"  app>
         <v-card flat class="pa-2 pt-4 darken-2 white--text font-weight-bold rounded-0" height="64px" color='#41392d'>
-          <v-icon color="white" large>
-            mdi-desk
+          <v-icon color="white" class="mb-1 mr-3" large>
+            mdi-store
           </v-icon>
           <span>
             NR BUREAUTIQUE

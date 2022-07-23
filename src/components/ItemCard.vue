@@ -3,6 +3,7 @@
     <v-img
       @click="goto('/item/' + id)"
       :src="'https://nr-brt.herokuapp.com' + image"
+      :lazy-src="'https://cdn66.picsart.com/191113910000202.jpg?type=webp&to=crop&r=60'"
       height="200px"
     >
       <template v-slot:placeholder>
