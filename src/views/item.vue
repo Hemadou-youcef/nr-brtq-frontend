@@ -93,6 +93,7 @@
               class="ma-1"
               color="success"
               plain
+              x-large
               outlined
               @click="editItem_dialog = true"
             >
@@ -102,6 +103,7 @@
             <v-btn
               class="ma-1 white--text"
               color="red"
+              x-large
               @click="deleteItem = true"
             >
               Delete

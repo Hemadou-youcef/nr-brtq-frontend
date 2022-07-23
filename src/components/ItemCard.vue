@@ -1,6 +1,6 @@
 <template>
 <v-hover v-slot="{ hover }">
-  <v-card class="mx-auto pa-0">
+  <v-card class="mx-auto pa-0" style="position:relative">
     <!-- :src="'https://nr-brt.herokuapp.com' + image" -->
     <v-img
       @click="goto('/item/' + id)"
@@ -33,6 +33,17 @@
     
     <v-card-title class="align-center d-md-none d-sm-block" > {{ name }} </v-card-title>
 
+        <v-btn
+          absolute
+          :color="(quantity == '1')?'green':'red'"
+          class="white--text"
+          
+          small
+          right
+          bottom
+        >
+          {{ (quantity == '1')?'disponible':'indisponible' }}
+        </v-btn>
     <v-card-actions v-if="false">
       <v-btn
         :loading="loading"
@@ -61,7 +72,7 @@
 <script>
 export default {
   name: "CardInfo",
-  props: ["name", "description", "image", "id"],
+  props: ["name", "description", "image", "id","quantity"],
   data: () => ({
     loading: false,
     hover: false,
@@ -78,7 +89,10 @@ export default {
     },
     breakpoint() {
       return this.$vuetify.breakpoint.xs;
-    }
+    },
+    SmallAndBelow() {
+      return this.$vuetify.breakpoint.smAndBelow;
+    },
   },
   methods: {
     goto(url) {
