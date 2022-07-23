@@ -2,7 +2,7 @@
   <v-card class="mx-auto pa-0">
     <v-img
       @click="goto('/item/' + id)"
-      :src="'http://localhost:8000' + image"
+      :src="'https://nr-brt.herokuapp.com' + image"
       height="200px"
     >
       <template v-slot:placeholder>
