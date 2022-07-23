@@ -23,7 +23,7 @@
           </span>
         </v-card>
         <v-divider></v-divider>
-        <v-list-item-group class="pt-3">
+        <!-- <v-list-item-group class="pt-3"> -->
           <v-list>
             <v-list-item
                 class="mx-4 mb-2 d-flex align-center justify-center rounded-lg"
@@ -54,7 +54,7 @@
               </v-list-item-content>
             </v-list-item>
           </v-list>
-        </v-list-item-group>
+        <!-- </v-list-item-group> -->
 
 
       </v-navigation-drawer>
@@ -71,7 +71,7 @@
         {'item': 'Accueil', 'icon': 'mdi-view-dashboard', 'to': '/'},
         {'item': 'Meubles', 'icon': 'mdi-sofa-single', 'to': '/meubles'},
         {'item': 'bureaux', 'icon': 'mdi-desk', 'to': '/bureaux'},
-        {'item': 'Chaises', 'icon': 'mdi-chair-rolling', 'to': '/Chaises'},
+        {'item': 'Chaises', 'icon': 'mdi-chair-rolling', 'to': '/chaises'},
         {'item': 'scolaires', 'icon': 'mdi-chair-school', 'to': '/scolaires'},
       ]
     }),

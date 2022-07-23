@@ -47,7 +47,7 @@
               ></iframe>
           </v-container>
         </v-col>
-        <v-col  md="6" sm="12" xs="12">
+        <v-col  md="6" sm="12" xs="12" class="mt-md-5 mt-sm-0 pa-0">
           <v-container width="100%" id="description">
             <v-card elevation="2" class="rounded-2">
               <v-card-title>OFFRE DE SERVICE</v-card-title>

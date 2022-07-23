@@ -10,7 +10,7 @@
     
       <v-row>
         <v-col md="6" sm="12">
-          <v-img :src="'http://localhost:8000' + item.image">
+          <v-img :lazy-src="'https://cdn66.picsart.com/191113910000202.jpg?type=webp&to=crop&r=60'" :src="'https://nr-brt.herokuapp.com' + item.image">
             <template v-slot:placeholder>
               <v-row class="fill-height ma-0" align="center" justify="center">
                 <v-progress-circular
@@ -50,15 +50,16 @@
                 <v-list-item-subtitle></v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
-            <v-divider class="mr-5 ml-5 brown"></v-divider>
+            <!-- <v-divider class="mr-5 ml-5 brown"></v-divider> -->
             <div
-              class="ml-5 pa-3"
+              class="ml-5 mr-5 pa-3"
             >
-              <span
+              <p
               v-for="(line, index) in item.description.split('\n')"
+              :class="{ 'text-right': testArabic(line.charAt(0)) }"
               :key="index">
                 {{ line }} <br/>
-              </span>
+              </p>
             </div>
 
             <!-- <v-expansion-panels accordion flat>
@@ -71,11 +72,18 @@
             </v-expansion-panels> -->
             <v-list-item>
               <v-list-item-content>
-                <v-list-item-title>
+                <v-list-item-title v-if="item.quantity == '1'">
                   <v-icon color="green" class="mb-1 mr-2">
                     mdi-check-bold
                   </v-icon>
                   <span class="title green--text">l'objet est disponible</span>
+                </v-list-item-title>
+
+                <v-list-item-title v-else>
+                  <v-icon color="red" class="mb-1 mr-2">
+                    mdi-close-thick
+                  </v-icon>
+                  <span class="title red--text">l'objet est indisponible</span>
                 </v-list-item-title>
               </v-list-item-content>
             </v-list-item>
@@ -109,6 +117,8 @@
         :edit="true"
         :name="item.name"
         :description="item.description"
+        :quantity="item.quantity"
+        :price="item.price"
         :id="this.$route.params.id"
       />
     </v-dialog>
@@ -174,13 +184,14 @@ export default {
         name: "",
         description: "",
         price: "",
-        category: "",
+        category: "0",
         image: "",
         id: "",
       },
       notFound: false,
       editItem_dialog: false,
       deleteItem: false,
+      arabic : /[\u0600-\u06FF]/
     };
   },
   methods: {
@@ -208,7 +219,11 @@ export default {
         .catch(() => {
           this.Deleteloading = false;
         });
-    }
+    },
+    testArabic(text){
+      console.log(this.arabic.test(text));
+      return this.arabic.test(text);
+    },
   },
   mounted() {
     this.getItemInfo();

@@ -38,21 +38,30 @@
               v-model="ItemForm.description"
               class="mb-5"
             ></v-textarea>
+
             <v-text-field
               :error-messages="formErrors.lastname"
-              @focus="formErrors.lastname = ''"
               label="PRIX"
+              type="number"
               v-model="ItemForm.price"
               required
               class="mt-1"
             ></v-text-field>
-            <v-text-field
-              :error-messages="formErrors.lastname"
-              @focus="formErrors.lastname = ''"
-              label="QUANTITY"
-              required
-              class="mt-1"
-            ></v-text-field>
+            <v-radio-group
+              v-model="ItemForm.quantity"
+              row
+            >
+              <v-radio
+                label="AVAILABLE" 
+                color="green"
+                :value="1"
+              ></v-radio>
+              <v-radio
+                label="NOT AVAILABLE"
+                color="red"
+                :value="0"
+              ></v-radio>
+            </v-radio-group>
             <v-row v-if="!edit">
               <v-col>
                 <v-file-input
@@ -61,15 +70,18 @@
                   placeholder="Pick an avatar"
                   v-model="ItemImage.image"
                   prepend-icon="mdi-camera"
+                  class="mb-md-2 mb-sm-0"
                   label="Item Image"
                   @change="previewImage"
+                  hide-details
                 ></v-file-input>
               </v-col>
-              <v-col cols="4">
+              <v-col md="4" sm="12">
                 <v-img
                   v-show="ItemImage.image"
                   :src="ItemImage.imageURL"
-                  width="100"
+                  class="mb-2"
+                  width="100%"
                   height="100"
                 ></v-img>
               </v-col>
@@ -115,14 +127,14 @@
 <script>
 export default {
   name: "Login",
-  props: ["category", "edit", "name", "price", "description", "id"],
+  props: ["category", "edit", "name", "price", "description","quantity", "id"],
   data() {
     return {
       ItemForm: {
         name: "",
         description: "",
         price: "",
-        quantity: "",
+        quantity: 1,
         category: this.category,
         image: "",
       },
@@ -173,11 +185,12 @@ export default {
     },
     editItem() {
       this.ActionLoading = true;
+      this.ItemForm.id = this.id;
       this.axios
         .put("/item/" + this.id, this.ItemForm)
         .then(() => {
-          this.ActionLoading = false;
           location.reload();
+          this.ActionLoading = false;
         })
         .catch((error) => {
           console.log(error);
@@ -221,7 +234,7 @@ export default {
         })
         .then((res) => {
           console.log(res);
-          this.ActionLoading = false;
+          // this.ActionLoading = false;
           location.reload();
           this.$emit("closeDialog");
         });
@@ -240,6 +253,7 @@ export default {
       this.ItemForm.name = this.name;
       this.ItemForm.price = this.price;
       this.ItemForm.description = this.description;
+      this.ItemForm.quantity = parseInt(this.quantity);
     }
   },
 };
