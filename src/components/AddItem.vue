@@ -192,17 +192,15 @@ export default {
           .replace(/^.+,/, "");
         // this.ItemForm.image = base64String;
         let parameters = {
-          key: "6d207e02198a847aa98d0a2a901485a5",
           action: "upload",
-          source: base64String,
-          format: "json",
+          source: base64String
         };
         this.ItemForm.parameters = parameters;
         this.axios
           .post("/item", this.ItemForm)
           .then(() => {
             this.snackbar = true;
-            location.reload();
+            // location.reload();
             // if (this.ItemImage.imageURL) {
             //   console.log("there is an image");
             //   this.updateImage(res.data.item_id);
