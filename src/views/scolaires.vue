@@ -117,12 +117,16 @@ export default {
     },
     searchItems() {
       this.loading = true;
-      this.axios
-        .get("/items/" + this.search + "?category=scolaires")
-        .then((response) => {
-          this.loading = false;
-          this.furniture = response.data.data;
-        });
+      if(this.search == ""){
+        this.GetAllfurniture();
+      }else{
+        this.axios
+          .get("/items/" + this.search + "?category=bureaux")
+          .then((response) => {
+            this.loading = false;
+            this.furniture = response.data.data;
+          });
+      }
     },
     pagination() {
       this.loading = true;

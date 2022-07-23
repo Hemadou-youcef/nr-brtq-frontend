@@ -48,8 +48,8 @@
               class="mt-1"
             ></v-text-field>
             <v-radio-group v-model="ItemForm.quantity" row>
-              <v-radio label="AVAILABLE" color="green" :value="1"></v-radio>
-              <v-radio label="NOT AVAILABLE" color="red" :value="0"></v-radio>
+              <v-radio label="AVAILABLE" color="green" value="1"></v-radio>
+              <v-radio label="NOT AVAILABLE" color="red" value="0"></v-radio>
             </v-radio-group>
             <v-row v-if="!edit">
               <v-col>
@@ -123,7 +123,7 @@ export default {
         name: "",
         description: "",
         price: "",
-        quantity: 1,
+        quantity: "1",
         category: this.category,
         image: "",
       },
@@ -174,10 +174,11 @@ export default {
     editItem() {
       this.ActionLoading = true;
       this.ItemForm.id = this.id;
+      this.ItemForm.quantity = toString(this.ItemForm.quantity);
       this.axios
         .put("/item/" + this.id, this.ItemForm)
         .then(() => {
-          // location.reload();
+          location.reload();
           this.ActionLoading = false;
         })
         .catch((error) => {
@@ -200,7 +201,7 @@ export default {
           .post("/item", this.ItemForm)
           .then(() => {
             this.snackbar = true;
-            // location.reload();
+            location.reload();
             // if (this.ItemImage.imageURL) {
             //   console.log("there is an image");
             //   this.updateImage(res.data.item_id);

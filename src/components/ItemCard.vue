@@ -1,10 +1,10 @@
 <template>
 <v-hover v-slot="{ hover }">
   <v-card class="mx-auto pa-0">
-    
+    <!-- :src="'https://nr-brt.herokuapp.com' + image" -->
     <v-img
       @click="goto('/item/' + id)"
-      :src="'https://nr-brt.herokuapp.com' + image"
+      :src="image"
       class="white--text"
       
       :lazy-src="'https://cdn66.picsart.com/191113910000202.jpg?type=webp&to=crop&r=60'"
@@ -24,7 +24,8 @@
             class="d-flex transition-fast-in-fast-out brown darken-2 v-card--reveal text-h2 white--text align-center justify-center"
             style="height: 100%;"
           >
-            {{ name }}
+            <span>{{ name }}</span>
+            
           </div>
         </v-expand-transition>
       <!-- <v-card-title v-if="!breakpoint" class="text-center d-sm-block d-xs-none" style="background-color:black;opacity:0.6"> {{ name }} </v-card-title> -->

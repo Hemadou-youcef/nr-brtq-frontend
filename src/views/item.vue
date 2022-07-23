@@ -10,7 +10,7 @@
     
       <v-row>
         <v-col md="6" sm="12">
-          <v-img :lazy-src="'https://cdn66.picsart.com/191113910000202.jpg?type=webp&to=crop&r=60'" :src="'https://nr-brt.herokuapp.com' + item.image">
+          <v-img :lazy-src="'https://cdn66.picsart.com/191113910000202.jpg?type=webp&to=crop&r=60'" :src="item.image">
             <template v-slot:placeholder>
               <v-row class="fill-height ma-0" align="center" justify="center">
                 <v-progress-circular
