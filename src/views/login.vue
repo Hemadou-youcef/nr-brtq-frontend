@@ -80,7 +80,7 @@ export default {
         .post("/login", this.login_info)
         .then((response) => {
           if (response.data.success) {
-            this.loading = false;
+            
             this.logged = true;
             this.response.show = true;
             this.response.type = "success";
@@ -88,28 +88,16 @@ export default {
             localStorage.setItem("token", response.data.token);
             this.axios.defaults.headers.common["Authorization"] =
               "Bearer " + localStorage.getItem("token");
-            this.axios
-              .post("/check-login")
-              .then((response) => {
-                localStorage.setItem("signin", true);
-                localStorage.setItem("user_id", response.data.id);
-                localStorage.setItem("user_name", response.data.name);
-                localStorage.setItem("user_surname", response.data.surname);
-                localStorage.setItem("user_email", response.data.email);
-                localStorage.setItem("role", response.data.role);
 
-                window.location.href = "/panel/users";
-              })
-              .catch(() => {
-                localStorage.removeItem("signin");
-                localStorage.removeItem("user_id");
-                localStorage.removeItem("user_name");
-                localStorage.removeItem("user_surname");
-                localStorage.removeItem("user_email");
-                localStorage.removeItem("role");
-                localStorage.removeItem("token");
-              });
-            
+            localStorage.setItem('auth' , 1 )
+            localStorage.setItem('role' , response.data.user.role)
+
+            this.$store.commit('authenticate' , true)
+            this.$store.commit('setRole' , response.data.user.role)
+
+            this.$store.dispatch('getUser')
+            this.$router.push({name : 'users'})
+            this.loading = false;
           } else {
             this.response.show = true;
             this.response.type = "error";

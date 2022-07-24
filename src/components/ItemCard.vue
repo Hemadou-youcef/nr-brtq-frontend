@@ -3,7 +3,7 @@
   <v-card class="mx-auto pa-0" style="position:relative">
     <!-- :src="'https://nr-brt.herokuapp.com' + image" -->
     <v-img
-      @click="goto('/item/' + id)"
+      @click="goto()"
       :src="image"
       class="white--text"
       
@@ -72,7 +72,7 @@
 <script>
 export default {
   name: "CardInfo",
-  props: ["name", "description", "image", "id","quantity"],
+  props: ["name", "description", "image", "id","quantity","panel","category"],
   data: () => ({
     loading: false,
     hover: false,
@@ -95,8 +95,9 @@ export default {
     },
   },
   methods: {
-    goto(url) {
-      this.$router.push(url);
+    goto() {
+      if(this.panel) this.$router.push('/panel/items/' + this.id);
+      else this.$router.push("/" + this.category + '/item/' + this.id);
     },
   },
   watch: {

@@ -8,6 +8,7 @@
         <div>
           <v-form v-model="valid" ref="form">
             <v-select
+              :rules="requireField"
               :items="categoryList"
               v-model="ItemForm.category"
               label="Catégorie"

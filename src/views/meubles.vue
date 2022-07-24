@@ -48,6 +48,8 @@
             :name="x.name"
             :description="x.description"
             :quantity="x.quantity"
+            :category="'meubles'"
+            :panel="false"
             :image="x.image[0]"
           />
         </v-col>

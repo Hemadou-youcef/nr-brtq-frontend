@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
+import store from '../store/index'
 
 Vue.use(VueRouter)
 
@@ -8,7 +9,11 @@ const routes = [
   {
     path: '/',
     name: 'Home',
-    component: Home
+    component: Home,
+    beforeEnter: (to, from, next) => {
+      store.commit('setNavBarTitle', 'Home')
+      next()
+    },
   },
   {
     path: '/meubles',
@@ -16,7 +21,11 @@ const routes = [
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/meubles.vue')
+    component: () => import(/* webpackChunkName: "about" */ '../views/meubles.vue'),
+    beforeEnter: (to, from, next) => {
+      store.commit('setNavBarTitle', 'meubles')
+      next()
+    },
   },
   {
     path: '/bureaux',
@@ -24,7 +33,11 @@ const routes = [
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/bureaux.vue')
+    component: () => import(/* webpackChunkName: "about" */ '../views/bureaux.vue'),
+    beforeEnter: (to, from, next) => {
+      store.commit('setNavBarTitle', 'bureaux')
+      next()
+    },
   },
   {
     path: '/Chaises',
@@ -32,7 +45,11 @@ const routes = [
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/Chaises.vue')
+    component: () => import(/* webpackChunkName: "about" */ '../views/Chaises.vue'),
+    beforeEnter: (to, from, next) => {
+      store.commit('setNavBarTitle', 'Chaises')
+      next()
+    },
   },
   {
     path: '/scolaires',
@@ -40,15 +57,23 @@ const routes = [
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/scolaires.vue')
+    component: () => import(/* webpackChunkName: "about" */ '../views/scolaires.vue'),
+    beforeEnter: (to, from, next) => {
+      store.commit('setNavBarTitle', 'scolaires')
+      next()
+    },
   },
   {
-    path: '/item/:id',
+    path: '/:category/item/:id',
     name: 'item',
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/item.vue')
+    component: () => import(/* webpackChunkName: "about" */ '../views/item.vue'),
+    beforeEnter: (to, from, next) => {
+      store.commit('setNavBarTitle', 'item')
+      next()
+    },
   },
   {
     path: '/login',
@@ -56,7 +81,11 @@ const routes = [
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/login.vue')
+    component: () => import(/* webpackChunkName: "about" */ '../views/login.vue'),
+    beforeEnter: (to, from, next) => {
+      store.commit('setNavBarTitle', 'login')
+      next()
+    },
   },
   {
     path: '/panel/users',
@@ -64,7 +93,17 @@ const routes = [
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/users.vue') 
+    component: () => import(/* webpackChunkName: "about" */ '../views/users.vue') ,
+    beforeEnter: (to, from, next) => {
+      if (store.state.authenticated) {
+        store.commit('setNavBarTitle', 'Panel')
+        next()
+      } else {
+        console.log('auth not OK')
+
+        next({ name: 'login' })
+      }
+    },
   },
   {
     path: '/panel/items',
@@ -72,7 +111,35 @@ const routes = [
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/items.vue') 
+    component: () => import(/* webpackChunkName: "about" */ '../views/items.vue') ,
+    beforeEnter: (to, from, next) => {
+      if (store.state.authenticated) {
+        store.commit('setNavBarTitle', 'Panel')
+        next()
+      } else {
+        console.log('auth not OK')
+
+        next({ name: 'login' })
+      }
+    },
+  },
+  {
+    path: '/panel/items/:id',
+    name: 'panel item',
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () => import(/* webpackChunkName: "about" */ '../views/panel_item.vue') ,
+    beforeEnter: (to, from, next) => {
+      if (store.state.authenticated) {
+        store.commit('setNavBarTitle', 'Panel')
+        next()
+      } else {
+        console.log('auth not OK')
+
+        next({ name: 'login' })
+      }
+    },
   },
   {
     path: '/panel/sold',
@@ -80,7 +147,17 @@ const routes = [
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/sold.vue') 
+    component: () => import(/* webpackChunkName: "about" */ '../views/sold.vue') ,
+    beforeEnter: (to, from, next) => {
+      if (store.state.authenticated) {
+        store.commit('setNavBarTitle', 'Panel')
+        next()
+      } else {
+        console.log('auth not OK')
+
+        next({ name: 'login' })
+      }
+    },
   }
 ]
 

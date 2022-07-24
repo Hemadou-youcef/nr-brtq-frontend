@@ -2,19 +2,41 @@
   <div class="home">
     <v-card class="mb-5" elevation="0">
       <v-card-subtitle class="pb-0">
-        <b>User ID: {{ UserInfo["user_id"] }}</b
+        <b>User ID: {{ getUser["id"] }}</b
         ><br />
         <b
-          >User Name: {{ UserInfo["user_name"] }}
-          {{ UserInfo["user_surname"] }}</b
+          >User Name: {{ getUser["name"] }}
+          {{ getUser["surname"] }}</b
         ><br />
-        <b>email : {{ UserInfo["user_email"] }}</b>
+        <b>email : {{ getUser["email"] }}</b>
       </v-card-subtitle>
+      <v-card-actions class="d-flex justify-end">
+        <!-- ADD USER -->
+        <v-btn
+          v-if="parseInt(getUser['role']) < 3"
+          class="ma-2"
+          color="primary"
+          plain
+          outlined
+          @click="addUser = true"
+        >
+          <v-icon left> mdi-plus </v-icon>
+          Add User
+        </v-btn>
+      </v-card-actions>
     </v-card>
     <v-tabs centered grow color="primary">
       <v-tabs-slider></v-tabs-slider>
       <v-tab>SUPER ADMIN</v-tab>
       <v-tab-item class="pa-2">
+        <div class="text-center">
+          <v-progress-circular
+            indeterminate
+            color="brown"
+            class="ma-5"
+            v-if="loadingContents"
+          ></v-progress-circular>
+        </div>
         <v-row>
           <v-col
             md="4"
@@ -39,6 +61,14 @@
       </v-tab-item>
       <v-tab>ADMIN</v-tab>
       <v-tab-item class="pa-2">
+        <div class="text-center">
+          <v-progress-circular
+            indeterminate
+            color="brown"
+            class="ma-5"
+            v-if="loadingContents"
+          ></v-progress-circular>
+        </div>
         <v-row>
           <v-col
             md="4"
@@ -48,8 +78,8 @@
             :key="index"
           >
             <UserCard
-              :canEdit="UserInfo['role'] == '1'"
-              :canDelete="UserInfo['role'] == '1'"
+              :canEdit="getUser['role'] == '1'"
+              :canDelete="getUser['role'] == '1'"
                 v-on:delete="deleteConformation"
                 v-on:edit="editForm"
               :id="user.id"
@@ -63,6 +93,14 @@
       </v-tab-item>
       <v-tab>WORKER</v-tab>
       <v-tab-item class="pa-2">
+        <div class="text-center">
+          <v-progress-circular
+            indeterminate
+            color="brown"
+            class="ma-5"
+            v-if="loadingContents"
+          ></v-progress-circular>
+        </div>
         <v-row>
           <v-col
             md="4"
@@ -72,8 +110,8 @@
             :key="index"
           >
             <UserCard
-              :canEdit="parseInt(UserInfo['role']) < 3"
-              :canDelete="parseInt(UserInfo['role']) < 3"
+              :canEdit="parseInt(getUser['role']) < 3"
+              :canDelete="parseInt(getUser['role']) < 3"
               v-on:delete="deleteConformation"
               v-on:edit="editForm"
               :id="user.id"
@@ -143,6 +181,9 @@
     <v-dialog max-width="600" v-model="editUser">
       <GrantRole :id="ChoosenUser" :role="ChoosenUserRole"/>
     </v-dialog>
+    <v-dialog max-width="600" v-model="addUser">
+      <AddUser/>
+    </v-dialog>
   </div>
 </template>
 
@@ -150,21 +191,24 @@
 // @ is an alias to /src
 import UserCard from "../components/UserCard.vue";
 import GrantRole from "../components/GrantRole.vue";
+import AddUser from "../components/AddUser.vue";
+
 export default {
-  name: "Home",
-  components: { UserCard,GrantRole },
+  name: "USERS",
+  components: { UserCard,GrantRole,AddUser },
   data() {
     return {
       page_name: "MINI-CONTROLL",
       logged: false,
       drawered: true,
-      loading: false,
+      loadingContents: false,
       valid: false,
       show4: false,
       editItem_dialog: false,
       Deleteloading: false,
       deleteItem:false,
       editUser:false,
+      addUser:false,
       ChoosenUser: -1,
       ChoosenUserRole:'3',
       s_admin: [],
@@ -182,19 +226,13 @@ export default {
     };
   },
   computed: {
-    UserInfo() {
-      let info = {
-        user_id: localStorage.getItem("user_id"),
-        user_name: localStorage.getItem("user_name"),
-        user_surname: localStorage.getItem("user_surname"),
-        user_email: localStorage.getItem("user_email"),
-        role: localStorage.getItem("role"),
-      };
-      return info;
+    getUser() {
+      return this.$store.state.user;
     },
   },
   methods: {
     getAllUser() {
+      this.loadingContents = true
       this.axios
         .get("/user")
         .then((res) => {

@@ -38,6 +38,7 @@
               :name="x.name"
               :description="x.description"
               :quantity="x.quantity"
+              :panel="true"
               :image="x.image[0]"
             />
           </v-col>
@@ -62,9 +63,10 @@
 <script>
 // @ is an alias to /src
 import AddItem from "../components/AddItem.vue";
+import ItemCard from "../components/ItemCard.vue";
 export default {
   name: "Home",
-  components: { AddItem },
+  components: { AddItem,ItemCard },
   data() {
     return {
       page_name: "MINI-CONTROLL",
@@ -129,7 +131,7 @@ export default {
     },
   },
   mounted() {
-    this.getAllUser();
+    this.GetAllfurniture();
   },
 };
 </script>

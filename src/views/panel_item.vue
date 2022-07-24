@@ -1,8 +1,8 @@
 <template>
   <div class="pa-5">
-    <v-btn :to="'/' + item.category" class="brown white--text">
+    <v-btn :to="'/panel/items'" class="primary white--text">
       <v-icon class="mr-2"> mdi-arrow-left-box </v-icon>
-      Retour to {{ item.category }}
+      Retour to panel
     </v-btn>
     <v-container class="mt-2 pa-md-5 pa-sm-0 rounded-lg" v-if="!notFound">
       <v-row>
@@ -219,7 +219,6 @@ import AddItem from "../components/AddItem.vue";
 export default {
   name: "meuble",
   components: { AddItem },
-  props: ["isLoggedIn"],
   data() {
     return {
       basisLanguage: "ar",
@@ -268,7 +267,7 @@ export default {
         .delete("/item/" + this.$route.params.id)
         .then(() => {
           this.Deleteloading = false;
-          this.$router.push("/" + this.item.category);
+          this.$router.push("/panel/items");
         })
         .catch(() => {
           this.Deleteloading = false;
