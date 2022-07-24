@@ -20,15 +20,15 @@ export default {
   }),
   methods: {
     CheckLogin(){
-        this.axios.get('/check-login').then(response => {
-          if(response.data.status == "success"){
-            this.logged = true;
-          }else{
-            localStorage.removeItem('token');
-          }
+        this.axios.post('/check-login').then(response => {
+          this.logged = true;
+          localStorage.setItem('signin', true)
+          localStorage.setItem('role' , response.data.role)
           this.checkLoginLoading = false;
         }).catch(() => {
+          localStorage.removeItem('signin')
           localStorage.removeItem('token');
+          localStorage.removeItem('role')
         });
       },
   },

@@ -51,31 +51,19 @@
               <v-radio label="AVAILABLE" color="green" value="1"></v-radio>
               <v-radio label="NOT AVAILABLE" color="red" value="0"></v-radio>
             </v-radio-group>
-            <v-row v-if="!edit">
-              <v-col>
-                <v-file-input
-                  :rules="requireField"
-                  accept="image/png, image/jpeg, image/bmp"
-                  placeholder="ADD IMAGES"
-                  v-model="ItemImage.image"
-                  prepend-icon="mdi-camera"
-                  class="mb-md-2 mb-sm-0"
-                  label="Item Image"
-                  multiple
-                  hide-details
-                ></v-file-input>
-              </v-col>
-              <v-col md="4" sm="12">
-                <!-- <v-img
-                  v-show="ItemImage.image"
-                  :src="ItemImage.imageURL"
-                  class="mb-2"
-                  width="100%"
-                  height="100"
-                ></v-img> -->
-              </v-col>
-            </v-row>
-            <v-layout justify-space-between>
+            <v-file-input
+              v-if="!edit"
+              :rules="requireField"
+              accept="image/png, image/jpeg, image/bmp"
+              placeholder="ADD IMAGES"
+              v-model="ItemImage.image"
+              prepend-icon="mdi-camera"
+              class=""
+              label="Item Image"
+              multiple
+              hide-details
+            ></v-file-input>
+            <v-layout class="mt-3" justify-space-between>
               <v-spacer></v-spacer>
               <v-btn
                 v-if="edit"
@@ -116,7 +104,7 @@
 <script>
 export default {
   name: "Login",
-  props: ["category", "edit", "name", "price", "description", "quantity", "id"],
+  props: ["category", "edit", "name", "price", "description", "quantity", "id","full_screen"],
   data() {
     return {
       ItemForm: {
@@ -199,7 +187,6 @@ export default {
           .replace(/^.+,/, "");
         this.ItemImage.imageBase64List.push(base64String);
         if (files.slice(1).length == 0) {
-          console.log("no file");
           let parameters = {
             action: "upload",
             source: this.ItemImage.imageBase64List,
@@ -209,7 +196,7 @@ export default {
             .post("/item", this.ItemForm)
             .then(() => {
               this.snackbar = true;
-              location.reload();
+              if(!this.full_screen) location.reload();
             })
             .catch((err) => {
               this.ActionLoading = false;
@@ -224,7 +211,7 @@ export default {
       };
       if (files.length > 0) {
         reader.readAsDataURL(files[0]);
-      } 
+      }
     },
     updateImage(id) {
       let data = new FormData();

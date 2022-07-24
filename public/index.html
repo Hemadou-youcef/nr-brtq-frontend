@@ -26,6 +26,7 @@
     <link rel="icon" href="https://lh5.googleusercontent.com/p/AF1QipMJM-1MkK-2It2V6L4jfQN5FS8smW9sLmSrNq8=w203-h203-k-no">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@latest/css/materialdesignicons.min.css">
+    <script src="https://cdn.tiny.cloud/1/myvbqogi3kpl5rhdb2lt73e8ubw5f47o8plp0i4cyoffwoqc/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
   </head>
   <body>
     <noscript>
@@ -33,5 +34,15 @@
     </noscript>
     <div id="app"></div>
     <!-- built files will be auto injected -->
+    <script>
+      tinymce.init({
+        selector: 'textarea',
+        plugins: 'a11ychecker advcode casechange export formatpainter image editimage linkchecker autolink lists checklist media mediaembed pageembed permanentpen powerpaste table advtable tableofcontents tinycomments tinymcespellchecker',
+        toolbar: 'a11ycheck addcomment showcomments casechange checklist code export formatpainter image editimage pageembed permanentpen table tableofcontents',
+        toolbar_mode: 'floating',
+        tinycomments_mode: 'embedded',
+        tinycomments_author: 'Author name',
+      });
+    </script>
   </body>
 </html>

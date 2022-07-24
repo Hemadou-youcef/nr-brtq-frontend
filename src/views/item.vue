@@ -4,7 +4,7 @@
       <v-icon class="mr-2"> mdi-arrow-left-box </v-icon>
       Retour to {{ item.category }}
     </v-btn>
-    <v-container class="pa-md-5 pa-sm-0 rounded-lg" v-if="!notFound">
+    <v-container class="mt-2 pa-md-5 pa-sm-0 rounded-lg" v-if="!notFound">
       <v-row>
         <v-col md="6" sm="12">
           <v-img
@@ -36,7 +36,7 @@
             <div class="ml-5 mr-5 pa-md-3 pa-sm-0">
               <p
                 v-for="(line, index) in item.description.split('\n')"
-                :style="{'direction': (testArabic(line.charAt(0))) ? 'rtl' : 'ltr'}"
+                :style="{'direction': (testArabic(line.charAt(0))) ? 'rtl' : (testEnglish(line)) ? 'ltr' : 'rtl'}"
                 class="text-xs-h5"
                 :key="index"
               >
@@ -85,7 +85,7 @@
             </v-card-title>
           </v-card>
           <v-card
-            v-if="isLoggedIn"
+            v-if="isLoggedIn && (parseInt(UserInfo['role']) <= 2 || UserInfo['id'] == item.user_id)"
             elevation="0"
             class="ma-2 d-flex justify-space-between"
           >
@@ -236,6 +236,18 @@ export default {
       arabic: /[\u0600-\u06FF]/,
     };
   },
+  computed: {
+    UserInfo() {
+      let info = {
+        user_id: localStorage.getItem("user_id"),
+        user_name: localStorage.getItem("user_name"),
+        user_surname: localStorage.getItem("user_surname"),
+        user_email: localStorage.getItem("user_email"),
+        role: localStorage.getItem("role"),
+      };
+      return info;
+    },
+  },
   methods: {
     goto(url) {
       window.location.href = url
@@ -266,8 +278,10 @@ export default {
         });
     },
     testArabic(text) {
-      console.log(this.arabic.test(text));
       return this.arabic.test(text);
+    },
+    testEnglish(text) {
+      return !this.arabic.test(text);
     },
   },
   mounted() {
