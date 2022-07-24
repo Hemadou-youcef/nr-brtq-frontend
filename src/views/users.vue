@@ -130,7 +130,7 @@
           class="text-caption font-weight-bold text-center pt-6 black--text"
           style="font-size: 16px !important"
         >
-          ÊTES-VOUS SÛR
+          CONFIRMATION
         </div>
 
         <v-card-text>

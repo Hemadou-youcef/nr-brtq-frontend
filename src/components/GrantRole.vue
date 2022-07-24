@@ -44,10 +44,6 @@ export default {
     },
     user_roles: [
       {
-        text: "SUPER ADMIN",
-        value: "1",
-      },
-      {
         text: "ADMIN",
         value: "2",
       },

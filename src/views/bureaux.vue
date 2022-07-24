@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <v-container>
-      <div v-if="logged">
+      <div v-if="getauth">
         <v-btn
           color="primary"
           outlined
@@ -101,6 +101,11 @@ export default {
     },
     page: function () {
       this.pagination();
+    },
+  },
+  computed: {
+    getauth() {
+      return this.$store.state.authenticated;
     },
   },
   methods: {

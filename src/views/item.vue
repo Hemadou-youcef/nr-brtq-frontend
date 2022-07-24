@@ -35,24 +35,17 @@
             </v-list-item>
             <!-- <v-divider class="mr-5 ml-5 brown"></v-divider> -->
             <div class="ml-5 mr-5 pa-md-3 pa-sm-0">
-              <p
-                v-for="(line, index) in item.description.split('\n')"
-                :style="{'direction': (testArabic(line.charAt(0))) ? 'rtl' : (testEnglish(line)) ? 'ltr' : 'rtl'}"
-                class="text-xs-h5"
-                :key="index"
-              >
-                {{ line }}
-              </p>
+              <div
+                v-html="
+                  $sanitize(item.description, {
+                    allowedAttributes: {
+                      a: ['href'],
+                      p: ['style']
+                    },
+                  })
+                "
+              />
             </div>
-
-            <!-- <v-expansion-panels accordion flat>
-              <v-expansion-panel class="elevation-0 ">
-                <v-expansion-panel-header> INFORMATION </v-expansion-panel-header>
-                <v-expansion-panel-content class="text-subtitle-1">
-                  {{ item.description }}
-                </v-expansion-panel-content>
-              </v-expansion-panel>
-            </v-expansion-panels> -->
             <v-list-item>
               <v-list-item-content>
                 <v-list-item-title v-if="item.quantity == '1'">
@@ -86,7 +79,10 @@
             </v-card-title>
           </v-card>
           <v-card
-            v-if="getauth && (parseInt(getUser['role']) <= 2 || getUser['id'] == item.user_id)"
+            v-if="
+              getauth &&
+              (parseInt(getUser['role']) <= 2 || getUser['id'] == item.user_id)
+            "
             elevation="0"
             class="ma-2 d-flex justify-space-between"
           >
@@ -247,7 +243,7 @@ export default {
   },
   methods: {
     goto(url) {
-      window.location.href = url
+      window.location.href = url;
     },
     getItemInfo() {
       let id = this.$route.params.id;

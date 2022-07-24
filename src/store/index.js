@@ -34,7 +34,11 @@ export default new Vuex.Store({
           console.log(res)
           context.commit('setUser', res.data)
         }
-      )
+      ).catch((error)=>{
+        if(error.response.status == 401){
+          context.dispatch('logout')
+        }
+      })
     },
     logout(context) {
       localStorage.removeItem('auth')

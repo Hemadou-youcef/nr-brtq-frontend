@@ -27,7 +27,7 @@
               class="mt-1"
             ></v-text-field>
 
-            <v-textarea
+            <!-- <v-textarea
               outlined
               auto-grow
               clearable
@@ -38,8 +38,24 @@
               :prepend-icon="!xsBreakpoint ? 'mdi-pen' : ''"
               v-model="ItemForm.description"
               class="mb-5"
-            ></v-textarea>
-
+            ></v-textarea> -->
+            <editor
+              api-key="myvbqogi3kpl5rhdb2lt73e8ubw5f47o8plp0i4cyoffwoqc"
+              v-model="ItemForm.description"
+              :init="{
+                height: 300,
+                menubar: false,
+                plugins: [
+                  'advlist autolink lists link image charmap print preview anchor',
+                  'searchreplace visualblocks code fullscreen',
+                  'insertdatetime media table paste code help wordcount emoticons',
+                ],
+                toolbar:
+                  'undo redo | formatselect | bold italic backcolor | \
+           alignleft aligncenter alignright alignjustify | \
+           bullist numlist outdent indent | removeformat | help',
+              }"
+            />
             <v-text-field
               :error-messages="formErrors.lastname"
               label="PRIX"
@@ -103,9 +119,22 @@
 </template>
 
 <script>
+import Editor from "@tinymce/tinymce-vue";
 export default {
   name: "Login",
-  props: ["category", "edit", "name", "price", "description", "quantity", "id","full_screen"],
+  props: [
+    "category",
+    "edit",
+    "name",
+    "price",
+    "description",
+    "quantity",
+    "id",
+    "full_screen",
+  ],
+  components: {
+    editor: Editor,
+  },
   data() {
     return {
       ItemForm: {
@@ -197,7 +226,7 @@ export default {
             .post("/item", this.ItemForm)
             .then(() => {
               this.snackbar = true;
-              if(!this.full_screen) location.reload();
+              if (!this.full_screen) location.reload();
             })
             .catch((err) => {
               this.ActionLoading = false;
