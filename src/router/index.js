@@ -16,54 +16,6 @@ const routes = [
     },
   },
   {
-    path: '/meubles',
-    name: 'meubles',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/meubles.vue'),
-    beforeEnter: (to, from, next) => {
-      store.commit('setNavBarTitle', 'meubles')
-      next()
-    },
-  },
-  {
-    path: '/bureaux',
-    name: 'bureaux',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/bureaux.vue'),
-    beforeEnter: (to, from, next) => {
-      store.commit('setNavBarTitle', 'bureaux')
-      next()
-    },
-  },
-  {
-    path: '/Chaises',
-    name: 'Chaises',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/Chaises.vue'),
-    beforeEnter: (to, from, next) => {
-      store.commit('setNavBarTitle', 'Chaises')
-      next()
-    },
-  },
-  {
-    path: '/scolaires',
-    name: 'scolaires',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/scolaires.vue'),
-    beforeEnter: (to, from, next) => {
-      store.commit('setNavBarTitle', 'scolaires')
-      next()
-    },
-  },
-  {
     path: '/:category/item/:id',
     name: 'item',
     // route level code-splitting
@@ -164,7 +116,19 @@ const routes = [
         next({ name: 'login' })
       }
     },
-  }
+  },
+  {
+    path: '/:category',
+    name: 'category',
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () => import(/* webpackChunkName: "about" */ '../views/ItemList.vue'),
+    beforeEnter: (to, from, next) => {
+      store.commit('setNavBarTitle', 'category')
+      next()
+    },
+  },
 ]
 
 const router = new VueRouter({

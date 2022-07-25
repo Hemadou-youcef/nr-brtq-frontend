@@ -57,7 +57,18 @@
            bullist numlist outdent indent | removeformat | help',
               }"
             />
-            <v-sheet class="ma-3 pa-0" >
+            <v-select
+            v-model="tagsSelected"
+            :items="tagsList"
+            chips
+            label="Chips"
+            class="mt-5"
+            hide-details
+            multiple
+            outlined
+          ></v-select>
+
+            <v-sheet class="ma-0 mt-5 pa-0" >
                 <v-list class="py-0">
                   <v-list-item class="primary font-weight-bold rounded-lg mb-2" style="text-align: center">
                     <v-list-item-content>
@@ -185,7 +196,7 @@
 <script>
 import Editor from "@tinymce/tinymce-vue";
 export default {
-  name: "Login",
+  name: "AddItem",
   props: [
     "category",
     "edit",
@@ -194,6 +205,7 @@ export default {
     "description",
     "quantity",
     'parameters_',
+    'tags',
     "id",
     "full_screen",
   ],
@@ -209,7 +221,7 @@ export default {
         quantity: "1",
         category: this.category,
         image: "",
-        tags: "",
+        tags: [],
       },
       parameters: [],
       ItemImage: {
@@ -223,6 +235,8 @@ export default {
       modal: false,
       ActionLoading: false,
       text: `item added`,
+      tagsSelected: [],
+      tagsList: ["HDF", "MDF", "BUREAUX", "MELAMINE PVC","Avec meroir"],
       categoryList: [
         {
           text: "MEUBLES",
@@ -259,7 +273,8 @@ export default {
     editItem() {
       this.ActionLoading = true;
       this.ItemForm.id = this.id;
-      this.ItemForm.parameters = JSON.stringify(this.parameters)
+      this.ItemForm.parameters = this.parameters
+      this.ItemForm.tags = this.tagsSelected
       this.axios
         .put("/item/" + this.id, this.ItemForm)
         .then(() => {
@@ -289,8 +304,9 @@ export default {
             action: "upload",
             source: this.ItemImage.imageBase64List,
           };
-          this.ItemForm.parameters = JSON.stringify(this.parameters)
+          this.ItemForm.parameters = this.parameters
           this.ItemForm.images = images;
+          this.ItemForm.tags = this.tagsSelected
           this.axios
             .post("/item", this.ItemForm)
             .then(() => {
@@ -346,6 +362,7 @@ export default {
       this.ItemForm.description = this.description;
       this.ItemForm.quantity = this.quantity;
       this.parameters = this.parameters_;
+      this.tagsSelected = this.tags;
     }
   },
 };

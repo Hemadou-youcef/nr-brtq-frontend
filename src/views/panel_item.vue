@@ -72,7 +72,7 @@
               </v-list-item-content>
             </v-list-item>
           </v-list>
-          <v-card  class="mt-3">
+          <v-card class="mt-3">
             <v-card-title>
               <v-icon class="mr-2 mt-1" size="35">
                 mdi-format-list-bulleted-type
@@ -175,6 +175,7 @@
         :description="item.description"
         :quantity="item.quantity"
         :parameters_="item.parameters"
+        :tags="item.tags"
         :price="item.price"
         :id="this.$route.params.id"
       />
@@ -280,6 +281,9 @@ export default {
         .then((response) => {
           this.item = response.data;
           this.item.parameters = JSON.parse(this.item.parameters);
+          this.item.tags = this.item.tags.split(",").map((element) => {
+            return element.toUpperCase();
+          });
         })
         .catch(() => {
           this.notFound = true;

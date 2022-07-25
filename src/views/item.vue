@@ -27,7 +27,7 @@
           <v-list elevation="2">
             <v-list-item>
               <v-list-item-content class="text-center">
-                <v-list-item-content class="title text-h4 ">
+                <v-list-item-content class="title text-h4">
                   {{ item.name }}
                 </v-list-item-content>
               </v-list-item-content>
@@ -39,7 +39,7 @@
                   $sanitize(item.description, {
                     allowedAttributes: {
                       a: ['href'],
-                      p: ['style']
+                      p: ['style'],
                     },
                   })
                 "
@@ -72,13 +72,9 @@
             </v-card-title>
           </v-card> -->
           <v-list class="mt-3">
-            <v-list-item
-              class="elevation-2 mb-2"
-            >
+            <v-list-item class="elevation-2 mb-2">
               <v-list-item-content>
-                <v-list-item-title>
-                  Catégorie
-                </v-list-item-title>
+                <v-list-item-title> Catégorie </v-list-item-title>
               </v-list-item-content>
 
               <v-list-item-content>
@@ -181,6 +177,7 @@
         :description="item.description"
         :quantity="item.quantity"
         :price="item.price"
+        :tags="item.tags"
         :parameters_="item.parameters"
         :id="this.$route.params.id"
       />
@@ -258,6 +255,7 @@ export default {
         price: "",
         category: "0",
         image: [],
+        tags: [],
         id: "",
       },
       notFound: false,
@@ -287,6 +285,9 @@ export default {
         .then((response) => {
           this.item = response.data;
           this.item.parameters = JSON.parse(this.item.parameters);
+          this.item.tags = this.item.tags.split(",").map((element) => {
+            return element.toUpperCase();
+          });
         })
         .catch(() => {
           this.notFound = true;
