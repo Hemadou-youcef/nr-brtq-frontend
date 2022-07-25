@@ -27,10 +27,9 @@
           <v-list elevation="2">
             <v-list-item>
               <v-list-item-content class="text-center">
-                <v-list-item-title>
+                <v-list-item-content>
                   <span class="title text-h4">{{ item.name }}</span>
-                </v-list-item-title>
-                <v-list-item-subtitle></v-list-item-subtitle>
+                </v-list-item-content>
               </v-list-item-content>
             </v-list-item>
             <!-- <v-divider class="mr-5 ml-5 brown"></v-divider> -->
@@ -168,7 +167,6 @@
       transition="dialog-bottom-transition"
       max-width="700"
       :scrollable="false"
-      @click:outside="closeOverLay(true)"
     >
       <AddItem
         :category="'scolaires'"

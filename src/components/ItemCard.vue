@@ -1,16 +1,18 @@
 <template>
-<v-hover v-slot="{ hover }">
-  <v-card class="mx-auto pa-0" style="position:relative">
-    <!-- :src="'https://nr-brt.herokuapp.com' + image" -->
-    <router-link :to="(panel)?'/panel/items/' + id:'/' + category + '/item/' + id"  style="text-decoration: none;">
-    <v-img
-      :src="image"
-      class="white--text"
-      
-      :lazy-src="'https://cdn66.picsart.com/191113910000202.jpg?type=webp&to=crop&r=60'"
-      :height="'300px'"
-    >
-      <!-- <template v-slot:placeholder>
+  <v-hover v-slot="{ hover }">
+    <v-card class="mx-auto pa-0" style="position: relative">
+      <!-- :src="'https://nr-brt.herokuapp.com' + image" -->
+      <router-link
+        :to="panel ? '/panel/items/' + id : '/' + category + '/item/' + id"
+        style="text-decoration: none"
+      >
+        <v-img
+          :src="image"
+          class="white--text"
+          :lazy-src="'https://cdn66.picsart.com/191113910000202.jpg?type=webp&to=crop&r=60'"
+          :height="'300px'"
+        >
+          <!-- <template v-slot:placeholder>
         <v-row class="fill-height ma-0" align="center" justify="center">
           <v-progress-circular
             indeterminate
@@ -18,61 +20,82 @@
           ></v-progress-circular>
         </v-row>
       </template> -->
-      <v-expand-transition>
-        ds
-          <div
-            v-if="hover"
-            class="d-flex transition-fast-in-fast-out brown darken-2 v-card--reveal text-h2 white--text align-center justify-center"
-            style="height: 100%"
-          >
-            <span>{{ name }}</span>
-          </div>
-        </v-expand-transition>
-      <!-- <v-card-title v-if="!breakpoint" class="text-center d-sm-block d-xs-none" style="background-color:black;opacity:0.6"> {{ name }} </v-card-title> -->
-    </v-img>
-    </router-link>
-    <v-card-title class="align-center d-md-none d-sm-block" > {{ name }} </v-card-title>
+          <v-expand-transition>
+            ds
+            <div
+              v-if="hover"
+              class="
+                d-flex
+                transition-fast-in-fast-out
+                brown
+                darken-2
+                v-card--reveal
+                text-h5
+                pa-5
+                white--text
+                align-center
+                justify-center
+              "
+              style="height: 100%"
+            >
+              <span>{{ name }}</span>
+            </div>
+          </v-expand-transition>
+          <!-- <v-card-title v-if="!breakpoint" class="text-center d-sm-block d-xs-none" style="background-color:black;opacity:0.6"> {{ name }} </v-card-title> -->
+        </v-img>
+      </router-link>
+      <v-card-title class="align-center d-md-none d-sm-block text-wrap">
+        {{ name }}
+      </v-card-title>
+
+      <v-btn
+        :absolute="!SmallAndBelow && !breakpoint"
+        :color="quantity == '1' ? 'green' : 'red'"
+        class="white--text"
+        :width="(SmallAndBelow || breakpoint) ? '100%' : 'auto'"
+        small
+        right
+        bottom
+      >
+        {{ quantity == "1" ? "disponible" : "indisponible" }}
+      </v-btn>
+      <v-card-actions v-if="false">
+        <v-btn
+          :loading="loading"
+          class="ma-1"
+          color="success lighten-3"
+          plain
+          outlined
+          @click="edit_student(i)"
+        >
+          <v-icon left> mdi-pencil </v-icon>
+          Edit
+        </v-btn>
 
         <v-btn
-          absolute
-          :color="(quantity == '1')?'green':'red'"
-          class="white--text"
-          
-          small
-          right
-          bottom
+          :loading="loading"
+          class="ma-1"
+          color="red"
+          @click="delete_student(i)"
         >
-          {{ (quantity == '1')?'disponible':'indisponible' }}
+          Delete
         </v-btn>
-    <v-card-actions v-if="false">
-      <v-btn
-        :loading="loading"
-        class="ma-1"
-        color="success lighten-3"
-        plain
-        outlined
-        @click="edit_student(i)"
-      >
-        <v-icon left> mdi-pencil </v-icon>
-        Edit
-      </v-btn>
-
-      <v-btn
-        :loading="loading"
-        class="ma-1"
-        color="red"
-        @click="delete_student(i)"
-      >
-        Delete
-      </v-btn>
-    </v-card-actions>
-  </v-card>
+      </v-card-actions>
+    </v-card>
   </v-hover>
 </template>
 <script>
 export default {
   name: "CardInfo",
-  props: ["name", "description", "image", "id","quantity","panel","category"],
+  props: [
+    "name",
+    "description",
+    "image",
+    "id",
+    "quantity",
+    "panel",
+    "category",
+  ],
   data: () => ({
     loading: false,
     hover: false,
@@ -91,13 +114,13 @@ export default {
       return this.$vuetify.breakpoint.xs;
     },
     SmallAndBelow() {
-      return this.$vuetify.breakpoint.smAndBelow;
+      return this.$vuetify.breakpoint.sm;
     },
   },
   methods: {
     goto() {
-      if(this.panel) this.$router.push('/panel/items/' + this.id);
-      else this.$router.push("/" + this.category + '/item/' + this.id);
+      if (this.panel) this.$router.push("/panel/items/" + this.id);
+      else this.$router.push("/" + this.category + "/item/" + this.id);
     },
   },
   watch: {
@@ -123,5 +146,8 @@ export default {
 <style>
 .v-responsive__content:hover {
   cursor: pointer !important;
+}
+.v-card__text, .v-card__title {
+  word-break: normal; /* maybe !important  */
 }
 </style>

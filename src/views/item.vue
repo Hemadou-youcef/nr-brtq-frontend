@@ -27,10 +27,9 @@
           <v-list elevation="2">
             <v-list-item>
               <v-list-item-content class="text-center">
-                <v-list-item-title>
-                  <span class="title text-h4">{{ item.name }}</span>
-                </v-list-item-title>
-                <v-list-item-subtitle></v-list-item-subtitle>
+                <v-list-item-content class="title text-h4 ">
+                  {{ item.name }}
+                </v-list-item-content>
               </v-list-item-content>
             </v-list-item>
             <!-- <v-divider class="mr-5 ml-5 brown"></v-divider> -->
@@ -64,15 +63,30 @@
               </v-list-item-content>
             </v-list-item>
           </v-list>
-          <v-card class="mt-3">
+          <!-- <v-card class="mt-3">
             <v-card-title>
               <v-icon class="mr-2 mt-1" size="35">
                 mdi-format-list-bulleted-type
               </v-icon>
               <span class="title">Catégorie: {{ item.category }}</span>
             </v-card-title>
-          </v-card>
-          <v-list>
+          </v-card> -->
+          <v-list class="mt-3">
+            <v-list-item
+              class="elevation-2 mb-2"
+            >
+              <v-list-item-content>
+                <v-list-item-title>
+                  Catégorie
+                </v-list-item-title>
+              </v-list-item-content>
+
+              <v-list-item-content>
+                <v-list-item-title>
+                  {{ item.category.toUpperCase() }}
+                </v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
             <v-list-item
               class="elevation-2 mb-2"
               v-for="(params, index) in item.parameters"
@@ -159,7 +173,6 @@
       transition="dialog-bottom-transition"
       max-width="700"
       :scrollable="false"
-      @click:outside="closeOverLay(true)"
     >
       <AddItem
         :category="'scolaires'"
@@ -303,5 +316,3 @@ export default {
   },
 };
 </script>
-<style scoped>
-</style>

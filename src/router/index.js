@@ -83,8 +83,14 @@ const routes = [
     // which is lazy-loaded when the route is visited.
     component: () => import(/* webpackChunkName: "about" */ '../views/login.vue'),
     beforeEnter: (to, from, next) => {
-      store.commit('setNavBarTitle', 'login')
-      next()
+      if (store.state.authenticated) {
+        store.commit('setNavBarTitle', 'Panel')
+        next({ name: 'users' })
+      }else{
+        store.commit('setNavBarTitle', 'login')
+        next()
+      }
+      
     },
   },
   {

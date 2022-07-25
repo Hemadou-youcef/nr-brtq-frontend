@@ -106,25 +106,12 @@ export default {
         },
         {
           icon: "mdi-phone",
-          text: "05 60 01 54 08",
-        },
-        {
-          icon: "mdi-phone",
-          text: "07 71 13 70 37",
-        },
-        {
-          icon: "mdi-phone",
-          text: "05 51 88 00 51",
+          text: "05 55 91 28 12",
         },
         {
           icon: "mdi-email",
-          text: "bureautiquenr@gmail.com",
-        },
-        {
-          icon: "mdi-facebook",
-          text: "NR BUREAUTIQUE",
-          to: "https://www.facebook.com/NR-BUREAUTIQUE-107767411881963/",
-        },
+          text: "youcef.hemadou@hotmail.com",
+        }
       ],
     };
   },
