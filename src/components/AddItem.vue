@@ -40,14 +40,15 @@
               class="mb-5"
             ></v-textarea> -->
             <editor
-              api-key="myvbqogi3kpl5rhdb2lt73e8ubw5f47o8plp0i4cyoffwoqc"
+              style="direction:rtl"
+              api-key="no-api-key"
               v-model="ItemForm.description"
               :init="{
                 height: 300,
                 menubar: false,
                 plugins: [
-                  'advlist autolink lists link image charmap print preview anchor',
-                  'searchreplace visualblocks code fullscreen',
+                  'autolink lists link image charmap print preview anchor',
+                  'visualblocks code fullscreen',
                   'insertdatetime media table paste code help wordcount emoticons',
                 ],
                 toolbar:
@@ -56,7 +57,70 @@
            bullist numlist outdent indent | removeformat | help',
               }"
             />
+            <v-sheet class="ma-3 pa-0" >
+                <v-list class="py-0">
+                  <v-list-item class="primary font-weight-bold rounded-lg mb-2" style="text-align: center">
+                    <v-list-item-content>
+                      <v-list-item-title class="white--text text-h6">
+                        Parameters
+                      </v-list-item-title>
+                    </v-list-item-content>
+                    <v-list-item-action class="pa-0 ma-0">
+                      <v-btn
+                          color="white"
+                          @click="parameters.push({name:'',value:''})"
+                          icon>
+                        <v-icon color="white">
+                          mdi-plus
+                        </v-icon>
+                      </v-btn>
+                    </v-list-item-action>
+                  </v-list-item>
+
+                  <v-list-item class="pa-1 elevation-0 mb-2 rounded-lg" v-for="(parameter,index) in parameters" :key="index">
+
+                    <v-list-item-content class="ma-0 pa-1">
+                      <v-text-field
+                          hide-details
+                          color="purple"
+                          class="pa-0 elevation-0"
+                          placeholder="name"
+                          v-model="parameter.name"
+                          :rules="requireField"
+                          height="20px"
+                          dense
+                          outlined
+                      ></v-text-field>
+                    </v-list-item-content>
+
+                    <v-list-item-content class="ma-0 pa-1">
+                      <v-text-field
+                          hide-details
+                          class="pa-0 elevation-0"
+                          placeholder="value"
+                          v-model="parameter.value"
+                          :rules="requireField"
+                          height="40px"
+                          dense
+                          outlined
+                      ></v-text-field>
+                    </v-list-item-content>
+                    <v-list-item-action class="ma-0 ml-1 fill-height">
+                      <v-btn
+                          class="fill-height elevation-0"
+                          @click="parameters.splice(index, 1)"
+                          color="white"
+                          icon>
+                        <v-icon color="red">
+                          mdi-close-thick
+                        </v-icon>
+                      </v-btn>
+                    </v-list-item-action>
+                  </v-list-item>
+                </v-list>
+              </v-sheet>
             <v-text-field
+              v-if="false"
               :error-messages="formErrors.lastname"
               label="PRIX"
               type="number"
@@ -129,6 +193,7 @@ export default {
     "price",
     "description",
     "quantity",
+    'parameters_',
     "id",
     "full_screen",
   ],
@@ -144,7 +209,9 @@ export default {
         quantity: "1",
         category: this.category,
         image: "",
+        tags: "",
       },
+      parameters: [],
       ItemImage: {
         image: null,
         imageBase64List: [],
@@ -192,6 +259,7 @@ export default {
     editItem() {
       this.ActionLoading = true;
       this.ItemForm.id = this.id;
+      this.ItemForm.parameters = JSON.stringify(this.parameters)
       this.axios
         .put("/item/" + this.id, this.ItemForm)
         .then(() => {
@@ -217,11 +285,12 @@ export default {
           .replace(/^.+,/, "");
         this.ItemImage.imageBase64List.push(base64String);
         if (files.slice(1).length == 0) {
-          let parameters = {
+          let images = {
             action: "upload",
             source: this.ItemImage.imageBase64List,
           };
-          this.ItemForm.parameters = parameters;
+          this.ItemForm.parameters = JSON.stringify(this.parameters)
+          this.ItemForm.images = images;
           this.axios
             .post("/item", this.ItemForm)
             .then(() => {
@@ -276,6 +345,7 @@ export default {
       this.ItemForm.price = this.price;
       this.ItemForm.description = this.description;
       this.ItemForm.quantity = this.quantity;
+      this.parameters = this.parameters_;
     }
   },
 };

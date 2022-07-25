@@ -12,10 +12,10 @@
       <v-btn v-if="!getauth" :to="'/login'" class="ml-auto" icon>
       <v-icon color="white">mdi-key</v-icon>
       </v-btn>
-      <v-btn v-else-if="getauth && IsHeInPanelPage" class="ml-auto" :to="'/'" @click="navBarItem" icon>
+      <v-btn v-else-if="getauth && IsHeInPanelPage" class="ml-auto" :to="'/'" icon>
         <v-icon color="white">mdi-view-dashboard</v-icon>
       </v-btn>
-      <v-btn v-else class="ml-auto" :to="'/panel/users'" @click="navBarItem" icon>
+      <v-btn v-else class="ml-auto" :to="'/panel/users'" icon>
         <v-icon color="white">mdi-account</v-icon>
       </v-btn>
     </v-app-bar>
@@ -136,7 +136,6 @@ export default {
     logout() {
       this.$store.dispatch('logout')
       this.$router.push("/login")
-      this.navBarItem()
     }
   },
   created() {

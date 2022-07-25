@@ -40,7 +40,7 @@
                   $sanitize(item.description, {
                     allowedAttributes: {
                       a: ['href'],
-                      p: ['style']
+                      p: ['style'],
                     },
                   })
                 "
@@ -73,7 +73,7 @@
               </v-list-item-content>
             </v-list-item>
           </v-list>
-          <v-card class="mt-3">
+          <v-card  class="mt-3">
             <v-card-title>
               <v-icon class="mr-2 mt-1" size="35">
                 mdi-format-list-bulleted-type
@@ -81,7 +81,26 @@
               <span class="title">Catégorie: {{ item.category }}</span>
             </v-card-title>
           </v-card>
-          <v-card class="mt-3">
+          <v-list>
+            <v-list-item
+              class="elevation-2 mb-2"
+              v-for="(params, index) in item.parameters"
+              :key="index"
+            >
+              <v-list-item-content>
+                <v-list-item-title>
+                  {{ params.name.toUpperCase() }}
+                </v-list-item-title>
+              </v-list-item-content>
+
+              <v-list-item-content>
+                <v-list-item-title>
+                  {{ params.value.toUpperCase() }}
+                </v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+          </v-list>
+          <v-card class="mt-3" v-if="false">
             <v-card-title>
               <v-icon class="mr-2 mt-1" large> mdi-cash </v-icon>
               <span class="title">Prix: {{ item.price }} DA</span>
@@ -157,6 +176,7 @@
         :name="item.name"
         :description="item.description"
         :quantity="item.quantity"
+        :parameters_="item.parameters"
         :price="item.price"
         :id="this.$route.params.id"
       />
@@ -261,6 +281,7 @@ export default {
         .get("/item/" + id)
         .then((response) => {
           this.item = response.data;
+          this.item.parameters = JSON.parse(this.item.parameters);
         })
         .catch(() => {
           this.notFound = true;

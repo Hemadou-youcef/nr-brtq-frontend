@@ -2,8 +2,8 @@
 <v-hover v-slot="{ hover }">
   <v-card class="mx-auto pa-0" style="position:relative">
     <!-- :src="'https://nr-brt.herokuapp.com' + image" -->
+    <router-link :to="(panel)?'/panel/items/' + id:'/' + category + '/item/' + id"  style="text-decoration: none;">
     <v-img
-      @click="goto()"
       :src="image"
       class="white--text"
       
@@ -19,18 +19,18 @@
         </v-row>
       </template> -->
       <v-expand-transition>
+        ds
           <div
             v-if="hover"
             class="d-flex transition-fast-in-fast-out brown darken-2 v-card--reveal text-h2 white--text align-center justify-center"
-            style="height: 100%;"
+            style="height: 100%"
           >
             <span>{{ name }}</span>
-            
           </div>
         </v-expand-transition>
       <!-- <v-card-title v-if="!breakpoint" class="text-center d-sm-block d-xs-none" style="background-color:black;opacity:0.6"> {{ name }} </v-card-title> -->
     </v-img>
-    
+    </router-link>
     <v-card-title class="align-center d-md-none d-sm-block" > {{ name }} </v-card-title>
 
         <v-btn

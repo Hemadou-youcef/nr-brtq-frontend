@@ -103,7 +103,7 @@ export default {
         this.GetAllfurniture();
       } else {
         this.axios
-          .get("/items/" + this.search + "?category=bureaux")
+          .get("/items/" + this.search )
           .then((response) => {
             this.loading = false;
             this.furniture = response.data.data;
