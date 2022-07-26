@@ -2,9 +2,9 @@
   <div class="home">
     <v-container>
       <CardInfo
-        :message="`PAS VENDU AUJOURD'HUI`"
-        :number="'ATTENDEZ LA PROCHAINE FOIS'"
-        :icon="`mdi-calendar`"
+        :message="`Livraison à tous les États`"
+        :number="''"
+        :icon="`mdi-truck-delivery`"
         :firstColor="`162929`"
         :secondColor="`443126`"
       />
@@ -107,6 +107,11 @@ export default {
         {
           icon: "mdi-phone",
           text: "05 55 91 28 12",
+        },
+        {
+          icon: "mdi-facebook",
+          text: "Compte représentant de l'entreprise",
+          to: "https://www.facebook.com/Y.DEV19/",
         },
         {
           icon: "mdi-email",

@@ -116,7 +116,7 @@
         <v-col
           md="4"
           sm="6"
-          xs="12"
+          cols="12"
           v-for="(x, index) in furniture"
           :key="index"
           class="mt-3"

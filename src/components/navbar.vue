@@ -21,7 +21,7 @@
     </v-app-bar>
     <v-navigation-drawer
       v-model="drawer"
-      :width="extraSmall && drawer ? '80%' : '255px'"
+      :width="nvWidth"
       app
     >
       <v-card
@@ -31,13 +31,14 @@
         @click="drawer = !drawer"
         :color="(IsHeInPanelPage)?'primary darken-2':'#41392d'"
       >
-        <div v-if="!drawer || !extraSmall">
+      <!-- v-if="!drawer || !extraSmall" -->
+        <div >
           <v-icon color="white" class="mb-1 mr-3" large> mdi-store </v-icon>
           <span> {{ (IsHeInPanelPage)?'ADMIN PANEL':'NR BUREAUTIQUE'}} </span>
         </div>
-        <v-icon v-else color="white" class="ml-3 mt-0 pt-0" large>
+        <!-- <v-icon v-else color="white" class="ml-3 mt-0 pt-0" large>
           mdi-menu
-        </v-icon>
+        </v-icon> -->
       </v-card>
       <v-divider></v-divider>
       <v-list>
@@ -86,6 +87,7 @@ export default {
     drawer: true,
     drawer_items: [],
     IsHeInPanel: false,
+    nvWidth: "255px", 
   }),
   computed: {
     getauth() {

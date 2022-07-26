@@ -25,10 +25,10 @@
         </v-col>
         <v-col md="6" sm="15">
           <v-list elevation="2">
-            <v-list-item>
+            <v-list-item style="text-align:center">
               <v-list-item-content class="text-center">
-                <v-list-item-content class="title text-h4">
-                  {{ item.name }}
+                <v-list-item-content class="title text-h4" >
+                  <span>{{ item.name }}</span>
                 </v-list-item-content>
               </v-list-item-content>
             </v-list-item>
@@ -61,6 +61,17 @@
                   <span class="title red--text">l'objet est indisponible</span>
                 </v-list-item-title>
               </v-list-item-content>
+              <v-btn
+                :color="item.quantity == '1' ? 'green' : 'red'"
+                class="white--text"
+                small
+                tile
+                block
+                right
+                bottom
+              >
+                {{ item.quantity == "1" ? "disponible" : "indisponible" }}
+              </v-btn>
             </v-list-item>
           </v-list>
           <!-- <v-card class="mt-3">
@@ -141,7 +152,7 @@
         <v-col
           md="4"
           sm="6"
-          xs="12"
+          cols="12"
           v-for="(img, index) in item.image.slice(1)"
           :key="index"
           class="mt-3 d-flex"

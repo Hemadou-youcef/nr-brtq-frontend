@@ -25,7 +25,7 @@
                 ></v-progress-circular>
               </v-row>
             </template>
-            <v-expand-transition>
+            <v-expand-transition v-if="!SmallAndBelow">
               <div v-if="!hover">
                 <div
                   class="
@@ -58,6 +58,8 @@
         :absolute="!SmallAndBelow && !breakpoint"
         :color="quantity == '1' ? 'green' : 'red'"
         class="white--text"
+        :rounded="!SmallAndBelow && !breakpoint"
+        :tile="SmallAndBelow || breakpoint"
         :width="SmallAndBelow || breakpoint ? '100%' : 'auto'"
         small
         right
@@ -120,7 +122,7 @@ export default {
       return this.$vuetify.breakpoint.xs;
     },
     SmallAndBelow() {
-      return this.$vuetify.breakpoint.sm;
+      return this.$vuetify.breakpoint.smAndDown;
     },
   },
   methods: {

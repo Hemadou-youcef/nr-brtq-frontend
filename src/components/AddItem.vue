@@ -13,7 +13,6 @@
               v-model="ItemForm.category"
               label="Catégorie"
               class="mt-5"
-              :disabled="edit"
               hide-details
               dense
               outlined
