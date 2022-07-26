@@ -70,7 +70,12 @@
           </v-chip>
         </v-chip-group>
         Type:<br />
-        <v-btn-toggle class="mt-2" v-model="availableSelected" multiple mandatory>
+        <v-btn-toggle
+          class="mt-2"
+          v-model="availableSelected"
+          multiple
+          mandatory
+        >
           <v-btn>
             <v-icon>mdi-close-thick</v-icon>
             indisponible
@@ -169,7 +174,7 @@ export default {
       filter: false,
       tagsSelected: [],
       availableSelected: [0, 1],
-      tags: ["HDF", "MDF", "BUREAUX", "MELAMINE PVC","Avec meroir"],
+      tags: ["HDF", "MDF", "BUREAUX", "MELAMINE PVC", "Avec meroir"],
     };
   },
   computed: {
@@ -193,10 +198,12 @@ export default {
       this.logged = false;
       this.AddItem_dialog = false;
       this.page = 1;
-      this.pageLength = 1;
       this.loading = true;
       this.search = "";
       this.furniture = [];
+      this.tagsSelected = []
+      this.availableSelected = [0, 1]
+      this.filter = false
     },
   },
   methods: {
@@ -205,6 +212,7 @@ export default {
       this.axios.get("/items?category=" + this.category).then((response) => {
         this.loading = false;
         this.furniture = response.data.data;
+        this.pageLength = response.data.meta.last_page;
       });
     },
     CheckLogin() {
@@ -226,6 +234,7 @@ export default {
           .then((response) => {
             this.loading = false;
             this.furniture = response.data.data;
+            this.pageLength = response.data.meta.last_page;
           });
       }
     },
@@ -240,7 +249,7 @@ export default {
       let available = "";
       if (this.availableSelected == [0, 1]) {
         available = "";
-      } else if(this.availableSelected.length == 1){
+      } else if (this.availableSelected.length == 1) {
         available = "&available=" + this.availableSelected[0];
       }
       this.axios
@@ -255,13 +264,36 @@ export default {
         .then((response) => {
           this.loading = false;
           this.furniture = response.data.data;
+          this.pageLength = response.data.meta.last_page;
         });
     },
     pagination() {
       this.loading = true;
       if (this.search == "") {
+        this.loading = true;
+        let tagName = "&tags=";
+        this.tagsSelected.forEach((tag) => {
+          tagName += this.tags[tag] + ",";
+        });
+        if (tagName == "&tags=") tagName = "";
+        else tagName = tagName.substring(0, tagName.length - 1);
+        let available = "";
+        if (this.availableSelected == [0, 1]) {
+          available = "";
+        } else if (this.availableSelected.length == 1) {
+          available = "&available=" + this.availableSelected[0];
+        }
         this.axios
-          .get("/items?category=" + this.category + "&page=" + this.page)
+          .get(
+            "/items/search?search=" +
+              this.search +
+              available +
+              "&category=" +
+              this.category +
+              tagName +
+              "&page=" +
+              this.page
+          )
           .then((response) => {
             this.loading = false;
             this.furniture = response.data.data;
@@ -270,11 +302,11 @@ export default {
       } else {
         this.axios
           .get(
-            "/items/" +
+            "/items/search?search=" +
               this.search +
-              "?category=" +
+              "&category=" +
               this.category +
-              "&?page=" +
+              "&page=" +
               this.page
           )
           .then((response) => {

@@ -171,7 +171,7 @@
       :scrollable="false"
     >
       <AddItem
-        :category="'scolaires'"
+        :category="item.category"
         :edit="true"
         :name="item.name"
         :description="item.description"
@@ -243,7 +243,7 @@
 // @ is an alias to /src
 import AddItem from "../components/AddItem.vue";
 export default {
-  name: "meuble",
+  name: "ITEM",
   components: { AddItem },
   props: ["isLoggedIn"],
   data() {

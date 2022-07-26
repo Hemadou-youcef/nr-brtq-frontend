@@ -7,41 +7,47 @@
         style="text-decoration: none"
       >
         <v-img
+          class="v-image-bg-blur"
           :src="image"
-          class="white--text"
-          :lazy-src="'https://cdn66.picsart.com/191113910000202.jpg?type=webp&to=crop&r=60'"
           :height="'300px'"
         >
-          <!-- <template v-slot:placeholder>
-        <v-row class="fill-height ma-0" align="center" justify="center">
-          <v-progress-circular
-            indeterminate
-            color="grey lighten-5"
-          ></v-progress-circular>
-        </v-row>
-      </template> -->
-          <v-expand-transition>
-            ds
-            <div
-              v-if="hover"
-              class="
-                d-flex
-                transition-fast-in-fast-out
-                brown
-                darken-2
-                v-card--reveal
-                text-h5
-                pa-5
-                white--text
-                align-center
-                justify-center
-              "
-              style="height: 100%"
-            >
-              <span>{{ name }}</span>
-            </div>
-          </v-expand-transition>
-          <!-- <v-card-title v-if="!breakpoint" class="text-center d-sm-block d-xs-none" style="background-color:black;opacity:0.6"> {{ name }} </v-card-title> -->
+          <v-img
+            :src="image"
+            class="white--text"
+            :lazy-src="'https://cdn66.picsart.com/191113910000202.jpg?type=webp&to=crop&r=60'"
+            :height="'300px'"
+          >
+            <template v-slot:placeholder>
+              <v-row class="fill-height ma-0" align="center" justify="center">
+                <v-progress-circular
+                  indeterminate
+                  color="grey lighten-5"
+                ></v-progress-circular>
+              </v-row>
+            </template>
+            <v-expand-transition>
+              <div v-if="!hover">
+                <div
+                  class="
+                    d-flex
+                    transition-fast-in-fast-out
+                    brown
+                    darken-2
+                    v-card--reveal
+                    text-h5
+                    pa-5
+                    white--text
+                    align-center
+                    justify-center
+                  "
+                  style="height: 100%"
+                >
+                  <span>{{ name }}</span>
+                </div>
+              </div>
+            </v-expand-transition>
+            <!-- <v-card-title v-if="!breakpoint" class="text-center d-sm-block d-xs-none" style="background-color:black;opacity:0.6"> {{ name }} </v-card-title> -->
+          </v-img>
         </v-img>
       </router-link>
       <v-card-title class="align-center d-md-none d-sm-block text-wrap">
@@ -52,7 +58,7 @@
         :absolute="!SmallAndBelow && !breakpoint"
         :color="quantity == '1' ? 'green' : 'red'"
         class="white--text"
-        :width="(SmallAndBelow || breakpoint) ? '100%' : 'auto'"
+        :width="SmallAndBelow || breakpoint ? '100%' : 'auto'"
         small
         right
         bottom
@@ -147,7 +153,16 @@ export default {
 .v-responsive__content:hover {
   cursor: pointer !important;
 }
-.v-card__text, .v-card__title {
+.v-card__text,
+.v-card__title {
   word-break: normal; /* maybe !important  */
 }
+.v-image-bg-blur>.v-image__image{
+  filter: blur(5px);
+}
+.v-image-bg-blur .v-image__image{
+  transition: 5s background-size;
+  transition-delay:s;
+}
+
 </style>

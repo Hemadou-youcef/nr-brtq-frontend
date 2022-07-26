@@ -243,16 +243,16 @@ export default {
           value: "meubles",
         },
         {
-          text: "SCOLAIRES",
-          value: "scolaires",
-        },
-        {
           text: "BUREAUX",
           value: "bureaux",
         },
         {
           text: "CHAISES",
           value: "chaises",
+        },
+        {
+          text: "SCOLAIRES",
+          value: "scolaires",
         },
       ],
       requireField: [(v) => !!v || "field is required"],

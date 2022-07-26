@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import router from '../router/index.js'
+// import router from '../router/index.js'
 
 Vue.use(Vuex)
 
@@ -57,9 +57,9 @@ export default new Vuex.Store({
         console.log('logout error')
         console.log(err)
       })
-      if (!(router.currentRoute.name == 'login')) {
-        router.push({ name: 'login' })
-      }
+      // if (!(router.currentRoute.name == 'login')) {
+      //   router.push({ name: 'login' })
+      // }
     },
   },
   modules: {
