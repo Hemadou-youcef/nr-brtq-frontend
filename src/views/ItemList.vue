@@ -201,9 +201,9 @@ export default {
       this.loading = true;
       this.search = "";
       this.furniture = [];
-      this.tagsSelected = []
-      this.availableSelected = [0, 1]
-      this.filter = false
+      this.tagsSelected = [];
+      this.availableSelected = [0, 1];
+      this.filter = false;
     },
   },
   methods: {
@@ -226,6 +226,11 @@ export default {
       this.loading = true;
       if (this.search == "") {
         this.GetAllfurniture();
+        history.pushState(
+          {},
+          null,
+          `${this.$route.path}`
+        );
       } else {
         this.axios
           .get(
@@ -236,6 +241,11 @@ export default {
             this.furniture = response.data.data;
             this.pageLength = response.data.meta.last_page;
           });
+        history.pushState(
+          {},
+          null,
+          `${this.$route.path}?search=${encodeURIComponent(this.search)}`
+        );
       }
     },
     searchWithFilter() {
@@ -266,6 +276,15 @@ export default {
           this.furniture = response.data.data;
           this.pageLength = response.data.meta.last_page;
         });
+      history.pushState(
+        {},
+        null,
+        `${this.$route.path}?search=${encodeURIComponent(
+          this.search
+        )}&tags=${encodeURIComponent(tagName)}&available=${encodeURIComponent(
+          available
+        )}`
+      );
     },
     pagination() {
       this.loading = true;
@@ -278,6 +297,7 @@ export default {
         if (tagName == "&tags=") tagName = "";
         else tagName = tagName.substring(0, tagName.length - 1);
         let available = "";
+
         if (this.availableSelected == [0, 1]) {
           available = "";
         } else if (this.availableSelected.length == 1) {
@@ -299,6 +319,14 @@ export default {
             this.furniture = response.data.data;
             this.pageLength = response.data.meta.last_page;
           });
+          
+        history.pushState(
+          {},
+          null,
+          `${this.$route.path}?search=${encodeURIComponent(
+            tagName
+          )}${encodeURIComponent(available)}&page=${this.page}`
+        );
       } else {
         this.axios
           .get(
@@ -314,6 +342,13 @@ export default {
             this.furniture = response.data.data;
             this.pageLength = response.data.meta.last_page;
           });
+        history.pushState(
+          {},
+          null,
+          `${this.$route.path}?search=${encodeURIComponent(this.search)}&page=${
+            this.page
+          }`
+        );
       }
       // this.router.push("?page=" + this.search);
     },
@@ -323,7 +358,21 @@ export default {
     },
   },
   mounted() {
-    this.GetAllfurniture();
+    // this.GetAllfurniture();
+    if(this.$route.query.search){
+      this.search = this.$route.query.search;
+    }
+    if(this.$route.query.tags){
+      this.tagsSelected = this.$route.query.tags.split(",");
+    }
+    if(this.$route.query.available){
+      this.availableSelected = this.$route.query.available.split(",");
+    }
+    if(this.$route.query.page){
+      this.page = parseInt(this.$route.query.page);
+    }
+    this.pagination();
+
     this.CheckLogin();
   },
 };
