@@ -8,7 +8,7 @@
       <v-row>
         <v-col md="6" sm="12">
           <v-img
-            :lazy-src="'https://cdn66.picsart.com/191113910000202.jpg?type=webp&to=crop&r=60'"
+            class=" brown lighten-2"
             :src="item.image[0]"
             max-height="600px"
             @click="goto(item.image[0])"
@@ -158,9 +158,8 @@
           class="mt-3 d-flex"
         >
           <v-img
-            :lazy-src="'https://cdn66.picsart.com/191113910000202.jpg?type=webp&to=crop&r=60'"
             :src="img"
-            class="align-self-cente"
+            class="align-self-center brown lighten-2"
             @click="goto(img)"
           >
             <template v-slot:placeholder>

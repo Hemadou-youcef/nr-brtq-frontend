@@ -2,7 +2,7 @@
   <div class="home">
     <v-container>
       <CardInfo
-        :message="`Livraison à tous les États`"
+        :message="`Livraison à tous les wilaya`"
         :number="''"
         :icon="`mdi-truck-delivery`"
         :firstColor="`162929`"
@@ -110,8 +110,8 @@ export default {
         },
         {
           icon: "mdi-facebook",
-          text: "Compte représentant de l'entreprise",
-          to: "https://www.facebook.com/Y.DEV19/",
+          text: "Service Clients",
+          to: "https://www.facebook.com/NR-B-CHAT-105627538908863",
         },
         {
           icon: "mdi-email",

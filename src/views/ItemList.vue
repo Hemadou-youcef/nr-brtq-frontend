@@ -269,7 +269,7 @@ export default {
             available +
             "&category=" +
             this.category +
-            tagName
+            tagName.toLowerCase()
         )
         .then((response) => {
           this.loading = false;
@@ -310,7 +310,7 @@ export default {
               available +
               "&category=" +
               this.category +
-              tagName +
+              tagName.toLowerCase() +
               "&page=" +
               this.page
           )
