@@ -174,7 +174,7 @@ export default {
       filter: false,
       tagsSelected: [],
       availableSelected: [0, 1],
-      tags: ["HDF", "MDF", "BUREAUX", "MELAMINE PVC", "Avec meroir"],
+      tags: ["HDF", "MDF", "BUREAUX", "MELAMINE PVC", "MELAMINE", "TABLE", "TABLEAUX", "COFFRE", "CHAISE", "CANAPE"],
     };
   },
   computed: {
