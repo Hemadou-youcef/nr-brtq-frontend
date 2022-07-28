@@ -45,61 +45,64 @@
           </v-btn>
         </v-col>
       </v-row>
-      <v-container
-        v-if="filter"
-        transition="scroll-y-transition"
-        class="ma-1 rounded white--text brown darken-3"
-      >
-        <!-- <v-toolbar flat color="deep-purple accent-4" dark>
+      <v-expand-transition>
+        <div v-if="filter">
+          <v-container
+            v-if="filter"
+            transition="scroll-y-transition"
+            class="ma-1 rounded white--text brown darken-3"
+          >
+            <!-- <v-toolbar flat color="deep-purple accent-4" dark>
           <v-toolbar-title>Filter</v-toolbar-title>
         </v-toolbar> -->
-        <h2 class="text-h6 mb-2">
-          <v-icon color="white">mdi-filter-variant</v-icon>
-          Filter
-        </h2>
-        <span>Tags: </span>
-        <v-chip-group v-model="tagsSelected" column multiple>
-          <v-chip
-            class="white--text white"
-            filter
-            outlined
-            v-for="(tag, index) in tags"
-            :key="index"
-          >
-            {{ tag }}
-          </v-chip>
-        </v-chip-group>
-        Type:<br />
-        <v-btn-toggle
-          class="mt-2"
-          v-model="availableSelected"
-          multiple
-          mandatory
-        >
-          <v-btn>
-            <v-icon>mdi-close-thick</v-icon>
-            indisponible
-          </v-btn>
-          <v-btn>
-            <v-icon>mdi-check-bold</v-icon>
-            disponible
-          </v-btn>
-        </v-btn-toggle>
+            <h2 class="text-h6 mb-2">
+              <v-icon color="white">mdi-filter-variant</v-icon>
+              Filter
+            </h2>
+            <span>Tags: </span>
+            <v-chip-group v-model="tagsSelected" column multiple>
+              <v-chip
+                class="white--text white"
+                filter
+                outlined
+                v-for="(tag, index) in tags"
+                :key="index"
+              >
+                {{ tag }}
+              </v-chip>
+            </v-chip-group>
+            Type:<br />
+            <v-btn-toggle
+              class="mt-2"
+              v-model="availableSelected"
+              multiple
+              mandatory
+            >
+              <v-btn>
+                <v-icon>mdi-close-thick</v-icon>
+                indisponible
+              </v-btn>
+              <v-btn>
+                <v-icon>mdi-check-bold</v-icon>
+                disponible
+              </v-btn>
+            </v-btn-toggle>
 
-        <v-btn
-          elevation="2"
-          class="mt-3"
-          height="54px"
-          color="WHITE"
-          @click="searchWithFilter"
-          large
-          block
-        >
-          <v-icon left> mdi-magnify </v-icon>
-          SEARCH
-        </v-btn>
-      </v-container>
-
+            <v-btn
+              elevation="2"
+              class="mt-3"
+              height="54px"
+              color="WHITE"
+              @click="searchWithFilter"
+              large
+              block
+            >
+              <v-icon left> mdi-magnify </v-icon>
+              SEARCH
+            </v-btn>
+          </v-container>
+        </div>
+      </v-expand-transition>
       <div class="text-center ma-3">
         <v-progress-circular
           indeterminate
@@ -174,7 +177,19 @@ export default {
       filter: false,
       tagsSelected: [],
       availableSelected: [0, 1],
-      tags: ["HDF", "MDF", "BUREAUX", "MELAMINE PVC", "MELAMINE", "TABLE", "TABLEAUX", "COFFRE", "CHAISE", "CANAPE"],
+      tags: [
+        "HDF",
+        "MDF",
+        "BUREAUX",
+        "MELAMINE PVC",
+        "MELAMINE",
+        "TABLE",
+        "TABLEAUX",
+        "COFFRE",
+        "CHAISE",
+        "CANAPE",
+        "PLACARD",
+      ],
     };
   },
   computed: {
@@ -226,11 +241,7 @@ export default {
       this.loading = true;
       if (this.search == "") {
         this.GetAllfurniture();
-        history.pushState(
-          {},
-          null,
-          `${this.$route.path}`
-        );
+        history.pushState({}, null, `${this.$route.path}`);
       } else {
         this.axios
           .get(
@@ -319,7 +330,7 @@ export default {
             this.furniture = response.data.data;
             this.pageLength = response.data.meta.last_page;
           });
-          
+
         history.pushState(
           {},
           null,
@@ -359,16 +370,16 @@ export default {
   },
   mounted() {
     // this.GetAllfurniture();
-    if(this.$route.query.search){
+    if (this.$route.query.search) {
       this.search = this.$route.query.search;
     }
-    if(this.$route.query.tags){
+    if (this.$route.query.tags) {
       this.tagsSelected = this.$route.query.tags.split(",");
     }
-    if(this.$route.query.available){
+    if (this.$route.query.available) {
       this.availableSelected = this.$route.query.available.split(",");
     }
-    if(this.$route.query.page){
+    if (this.$route.query.page) {
       this.page = parseInt(this.$route.query.page);
     }
     this.pagination();
