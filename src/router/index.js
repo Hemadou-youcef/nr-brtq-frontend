@@ -11,7 +11,7 @@ const routes = [
     name: 'Home',
     component: Home,
     beforeEnter: (to, from, next) => {
-      store.commit('setNavBarTitle', 'Home')
+      store.commit('setNavBarTitle', 'Accueil')
       next()
     },
   },
@@ -23,7 +23,7 @@ const routes = [
     // which is lazy-loaded when the route is visited.
     component: () => import(/* webpackChunkName: "about" */ '../views/item.vue'),
     beforeEnter: (to, from, next) => {
-      store.commit('setNavBarTitle', 'item')
+      store.commit('setNavBarTitle', 'élément')
       next()
     },
   },
@@ -125,7 +125,7 @@ const routes = [
     // which is lazy-loaded when the route is visited.
     component: () => import(/* webpackChunkName: "about" */ '../views/ItemList.vue'),
     beforeEnter: (to, from, next) => {
-      store.commit('setNavBarTitle', 'category')
+      store.commit('setNavBarTitle', 'Catégorie')
       next()
     },
   },

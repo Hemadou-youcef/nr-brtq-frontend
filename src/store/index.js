@@ -31,7 +31,7 @@ export default new Vuex.Store({
     getUser(context) {
       Vue.axios.post('/check-login').then(
         res => {
-          console.log(res)
+          // console.log(res)
           context.commit('setUser', res.data)
         }
       ).catch((error)=>{
@@ -49,9 +49,9 @@ export default new Vuex.Store({
       context.commit('setRole', null)
       context.commit('setUser', {})
 
-      Vue.axios.post('/logout').then(res => {
+      Vue.axios.post('/logout').then(() => {
         console.log('logout request')
-        console.log(res)
+        // console.log(res)
 
       }).catch((err) => {
         console.log('logout error')

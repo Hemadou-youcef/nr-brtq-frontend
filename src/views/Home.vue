@@ -10,7 +10,7 @@
       />
       <!-- ADD GOOGLE MAP -->
       <v-row>
-        <v-col md="6" sm="12" xs="12">
+        <v-col md="6" sm="12" cols="12">
           <v-container width="100%" class="mt-5 pa-2 pt-0 elevation-2">
               <v-sheet color="brown" width="100%">
                 
@@ -39,7 +39,6 @@
               <iframe
                 src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d12880.74890806158!2d5.434143!3d36.1863282!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0xd12c8e59a6d57572!2sNR%20BUREAUTIQUE!5e0!3m2!1sen!2sdz!4v1658494318456!5m2!1sen!2sdz"
                 width="100%"
-                height="300px"
                 style="border: 0"
                 allowfullscreen=""
                 loading="lazy"
@@ -47,7 +46,7 @@
               ></iframe>
           </v-container>
         </v-col>
-        <v-col  md="6" sm="12" xs="12" class="mt-md-5 mt-sm-0 pa-0">
+        <v-col  md="6" sm="12" cols="12" class="mt-md-5 mt-sm-0 pa-0">
           <v-container width="100%" id="description">
             <v-card elevation="2" class="rounded-2">
               <v-card-title>OFFRE DE SERVICE</v-card-title>

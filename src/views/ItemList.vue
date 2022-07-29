@@ -199,13 +199,24 @@ export default {
     category() {
       return this.$route.params.category;
     },
+    pageParams() {
+      return this.$route.query.page;
+    },
   },
   watch: {
     search: function () {
-      this.searchItems();
+      if(!this.filter) this.searchItems();
     },
     page: function () {
       this.pagination();
+    },
+    pageParams: function (value) {
+      console.log(value);
+      if (value != undefined) {
+        this.page = value;
+      } else {
+        this.page = 1;
+      }
     },
     category: function () {
       this.GetAllfurniture();
@@ -219,6 +230,7 @@ export default {
       this.tagsSelected = [];
       this.availableSelected = [0, 1];
       this.filter = false;
+      document.title = this.$route.params.category.toUpperCase();
     },
   },
   methods: {
@@ -287,37 +299,45 @@ export default {
           this.furniture = response.data.data;
           this.pageLength = response.data.meta.last_page;
         });
-      history.pushState(
-        {},
-        null,
-        `${this.$route.path}?search=${encodeURIComponent(
-          this.search
-        )}&tags=${encodeURIComponent(tagName)}&available=${encodeURIComponent(
-          available
-        )}`
-      );
+      if (this.search == "") {
+        history.pushState(
+          {},
+          null,
+          `${this.$route.path}?tags=${encodeURIComponent(
+            tagName
+          )}&available=${encodeURIComponent(available)}`
+        );
+      } else {
+        history.pushState(
+          {},
+          null,
+          `${this.$route.path}?search=${encodeURIComponent(
+            this.search
+          )}&tags=${encodeURIComponent(tagName)}&available=${encodeURIComponent(
+            available
+          )}`
+        );
+      }
     },
     pagination() {
       this.loading = true;
-      if (this.search == "") {
-        this.loading = true;
-        let tagName = "&tags=";
-        this.tagsSelected.forEach((tag) => {
-          tagName += this.tags[tag] + ",";
-        });
-        if (tagName == "&tags=") tagName = "";
-        else tagName = tagName.substring(0, tagName.length - 1);
-        let available = "";
+      let tagName = "";
+      this.tagsSelected.forEach((tag) => {
+        tagName += this.tags[tag] + ",";
+      });
+      let available = "";
 
-        if (this.availableSelected == [0, 1]) {
-          available = "";
-        } else if (this.availableSelected.length == 1) {
-          available = "&available=" + this.availableSelected[0];
-        }
+      if (this.availableSelected == [0, 1]) {
+        available = "";
+      } else if (this.availableSelected.length == 1) {
+        available = this.availableSelected[0];
+      }
+
+
+      if (this.search == "") {
         this.axios
           .get(
-            "/items/search?search=" +
-              this.search +
+            "/items/search?available=" +
               available +
               "&category=" +
               this.category +
@@ -334,17 +354,19 @@ export default {
         history.pushState(
           {},
           null,
-          `${this.$route.path}?search=${encodeURIComponent(
+          `${this.$route.path}?tags=${encodeURIComponent(
             tagName
-          )}${encodeURIComponent(available)}&page=${this.page}`
+          )}&available=${encodeURIComponent(available)}&page=${this.page}`
         );
       } else {
         this.axios
           .get(
             "/items/search?search=" +
               this.search +
+              available +
               "&category=" +
               this.category +
+              tagName.toLowerCase() +
               "&page=" +
               this.page
           )
@@ -356,12 +378,13 @@ export default {
         history.pushState(
           {},
           null,
-          `${this.$route.path}?search=${encodeURIComponent(this.search)}&page=${
-            this.page
-          }`
+          `${this.$route.path}?search=${encodeURIComponent(
+            this.search
+          )}&tags=${encodeURIComponent(tagName)}&available=${encodeURIComponent(
+            available
+          )}&page=${this.page}`
         );
       }
-      // this.router.push("?page=" + this.search);
     },
     closeOverLay() {
       this.AddItem_dialog = false;
@@ -385,6 +408,7 @@ export default {
     this.pagination();
 
     this.CheckLogin();
+    document.title = this.$route.params.category.toUpperCase();
   },
 };
 </script>

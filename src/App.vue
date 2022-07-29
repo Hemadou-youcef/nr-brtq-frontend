@@ -22,7 +22,20 @@ export default {
     authenticated() {
       return this.$store.state.authenticated;
     },
-    
+  },
+  watch: {
+    $route: {
+      immediate: true,
+      handler() {
+        document.title = this.$store.state.NavBarTitle.toUpperCase() || "NR BUREAUTIQUE";
+      },
+    },
+    //  $store: {
+    //   immediate: true,
+    //   handler(to) {
+    //     document.title = to.state.NavBarTitle.toUpperCase() || "NR BUREAUTIQUE";
+    //   },
+    // },
   },
   methods: {
     // CheckLogin() {
@@ -36,7 +49,6 @@ export default {
     //       localStorage.setItem("user_surname", response.data.surname);
     //       localStorage.setItem("user_email", response.data.email);
     //       localStorage.setItem("role", response.data.role);
-
     //       this.checkLoginLoading = false;
     //     })
     //     .catch(() => {
@@ -51,7 +63,7 @@ export default {
     // },
   },
   mounted() {
-    this.$store.dispatch('getUser')
+    this.$store.dispatch("getUser");
   },
 };
 </script>

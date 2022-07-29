@@ -1,33 +1,35 @@
 <template>
   <div class="pa-5">
-    <v-btn :to="'/' + item.category" class="brown white--text">
+    <v-btn :to="'/' + ItemCategory" class="brown white--text">
       <v-icon class="mr-2"> mdi-arrow-left-box </v-icon>
-      Retour to {{ item.category }}
+      Retour to {{ ItemCategory }}
     </v-btn>
-    <v-container class="mt-2 pa-md-5 pa-sm-0 rounded-lg" v-if="!notFound">
+    <v-container class=" mt-2 pa-md-5 pa-sm-0 rounded-lg" v-if="!notFound">
       <v-row>
-        <v-col md="6" sm="12">
-          <v-img
-            class=" brown lighten-2"
-            :src="item.image[0]"
-            max-height="600px"
-            @click="goto(item.image[0])"
-          >
-            <template v-slot:placeholder>
-              <v-row class="fill-height ma-0" align="center" justify="center">
-                <v-progress-circular
-                  indeterminate
-                  color="grey lighten-5"
-                ></v-progress-circular>
-              </v-row>
-            </template>
-          </v-img>
+        <v-col class="pa-0 pa-sm-3" cols="12" md="6" sm="12">
+          <router-link :to="item.image[0]">
+            <v-img
+              class="brown lighten-2"
+              :src="item.image[0]"
+              max-height="600px"
+              @click="goto(item.image[0])"
+            >
+              <template v-slot:placeholder>
+                <v-row class="fill-height ma-0" align="center" justify="center">
+                  <v-progress-circular
+                    indeterminate
+                    color="grey lighten-5"
+                  ></v-progress-circular>
+                </v-row>
+              </template>
+            </v-img>
+          </router-link>
         </v-col>
-        <v-col md="6" sm="15">
-          <v-list elevation="2">
-            <v-list-item style="text-align:center">
+        <v-col class="pa-0 pa-sm-3" cols="12" md="6" sm="15">
+          <v-list elevation="2" class="pb-0">
+            <v-list-item style="text-align: center">
               <v-list-item-content class="text-center">
-                <v-list-item-content class="title text-h4" >
+                <v-list-item-content class="title text-h4">
                   <span>{{ item.name }}</span>
                 </v-list-item-content>
               </v-list-item-content>
@@ -45,7 +47,7 @@
                 "
               />
             </div>
-            <v-list-item>
+            <!-- <v-list-item class="pb-0 ">
               <v-list-item-content>
                 <v-list-item-title v-if="item.quantity == '1'">
                   <v-icon color="green" class="mb-1 mr-2">
@@ -60,19 +62,16 @@
                   </v-icon>
                   <span class="title red--text">l'objet est indisponible</span>
                 </v-list-item-title>
-              </v-list-item-content>
-              <v-btn
-                :color="item.quantity == '1' ? 'green' : 'red'"
-                class="white--text"
-                small
-                tile
-                block
-                right
-                bottom
-              >
-                {{ item.quantity == "1" ? "disponible" : "indisponible" }}
-              </v-btn>
-            </v-list-item>
+              </v-list-item-content> -->
+            <v-btn
+              :color="item.quantity == '1' ? 'green' : 'red'"
+              class="white--text pb-0"
+              tile
+              block
+            >
+              {{ item.quantity == "1" ? "disponible" : "indisponible" }}
+            </v-btn>
+            <!-- </v-list-item> -->
           </v-list>
           <!-- <v-card class="mt-3">
             <v-card-title>
@@ -155,22 +154,24 @@
           cols="12"
           v-for="(img, index) in item.image.slice(1)"
           :key="index"
-          class="mt-3 d-flex"
+          class="mt-3 d-flex pa-0 pa-sm-3"
         >
-          <v-img
-            :src="img"
-            class="align-self-center brown lighten-2"
-            @click="goto(img)"
-          >
-            <template v-slot:placeholder>
-              <v-row class="fill-height ma-0" align="center" justify="center">
-                <v-progress-circular
-                  indeterminate
-                  color="grey lighten-5"
-                ></v-progress-circular>
-              </v-row>
-            </template>
-          </v-img>
+          <router-link :to="img" style="width:100%">
+            <v-img
+              :src="img"
+              class="align-self-center brown lighten-2"
+              @click="goto(img)"
+            >
+              <template v-slot:placeholder>
+                <v-row class="fill-height ma-0" align="center" justify="center">
+                  <v-progress-circular
+                    indeterminate
+                    color="grey lighten-5"
+                  ></v-progress-circular>
+                </v-row>
+              </template>
+            </v-img>
+          </router-link>
         </v-col>
       </v-row>
     </v-container>
@@ -268,6 +269,7 @@ export default {
         tags: [],
         id: "",
       },
+      Found: false,
       notFound: false,
       editItem_dialog: false,
       deleteItem: false,
@@ -280,6 +282,9 @@ export default {
     },
     getUser() {
       return this.$store.state.user;
+    },
+    ItemCategory() {
+      return this.$route.params.category;
     },
   },
   methods: {
@@ -298,9 +303,12 @@ export default {
           this.item.tags = this.item.tags.split(",").map((element) => {
             return element.toUpperCase();
           });
+          this.Found = true;
+          document.title = this.item.name;
         })
         .catch(() => {
           this.notFound = true;
+          document.title = "404 Not Found";
         });
     },
     delete_Item() {
