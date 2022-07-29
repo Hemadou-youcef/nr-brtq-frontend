@@ -27,7 +27,7 @@ export default {
     $route: {
       immediate: true,
       handler() {
-        document.title = this.$store.state.NavBarTitle.toUpperCase() || "NR BUREAUTIQUE";
+        document.title = this.$store.state.NavBarTitle.toUpperCase() + "| NR BUREAUTIQUE" || "NR BUREAUTIQUE";
       },
     },
     //  $store: {

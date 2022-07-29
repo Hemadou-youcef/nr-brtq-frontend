@@ -304,11 +304,11 @@ export default {
             return element.toUpperCase();
           });
           this.Found = true;
-          document.title = this.item.name;
+          document.title = this.item.name + + "| NR BUREAUTIQUE";
         })
         .catch(() => {
           this.notFound = true;
-          document.title = "404 Not Found";
+          document.title = "404 Not Found | NR BUREAUTIQUE";
         });
     },
     delete_Item() {

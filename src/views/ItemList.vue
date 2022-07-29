@@ -230,7 +230,7 @@ export default {
       this.tagsSelected = [];
       this.availableSelected = [0, 1];
       this.filter = false;
-      document.title = this.$route.params.category.toUpperCase();
+      document.title = this.$route.params.category.toUpperCase() + + "| NR BUREAUTIQUE";
     },
   },
   methods: {
@@ -408,7 +408,7 @@ export default {
     this.pagination();
 
     this.CheckLogin();
-    document.title = this.$route.params.category.toUpperCase();
+    document.title = this.$route.params.category.toUpperCase() + + "| NR BUREAUTIQUE";
   },
 };
 </script>
