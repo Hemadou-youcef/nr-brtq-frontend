@@ -7,7 +7,7 @@
     <v-container class=" mt-2 pa-md-5 pa-sm-0 rounded-lg" v-if="!notFound">
       <v-row>
         <v-col class="pa-0 pa-sm-3" cols="12" md="6" sm="12">
-          <router-link :to="item.image[0]">
+          <a :href="item.image[0]">
             <v-img
               class="brown lighten-2"
               :src="item.image[0]"
@@ -23,7 +23,7 @@
                 </v-row>
               </template>
             </v-img>
-          </router-link>
+          </a>
         </v-col>
         <v-col class="pa-0 pa-sm-3" cols="12" md="6" sm="15">
           <v-list elevation="2" class="pb-0">
@@ -156,7 +156,7 @@
           :key="index"
           class="mt-3 d-flex pa-0 pa-sm-3"
         >
-          <router-link :to="img" style="width:100%">
+          <a :href="img" style="width:100%">
             <v-img
               :src="img"
               class="align-self-center brown lighten-2"
@@ -171,7 +171,7 @@
                 </v-row>
               </template>
             </v-img>
-          </router-link>
+          </a>
         </v-col>
       </v-row>
     </v-container>

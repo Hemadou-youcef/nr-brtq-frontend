@@ -21,7 +21,7 @@
                     <v-list-item
                       v-for="(item, i) in items"
                       :key="i"
-                      @click="goto(item.to,item.text)"
+                      @click="goto(item.to,item.text,item.blank)"
                     >
                       <v-list-item-icon>
                         <v-icon v-text="item.icon"></v-icon>
@@ -113,16 +113,22 @@ export default {
           to: "https://www.facebook.com/NR-B-CHAT-105627538908863",
         },
         {
+          blank: false,
           icon: "mdi-email",
           text: "youcef.hemadou@hotmail.com",
+          to: "mailto:youcef.hemadou@hotmail.com",
         }
       ],
     };
   },
   methods: {
-    goto(url,text) {
+    goto(url,text,blank = true) {
       if (url) {
-        window.open(url, "_blank");
+        if (blank) {
+          window.open(url, "_blank");
+        } else {
+          window.location.href = url;
+        }
       }else{
         navigator.clipboard.writeText(text.replace(/ /g, ""));
       }
